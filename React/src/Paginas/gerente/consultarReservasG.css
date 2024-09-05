@@ -1,0 +1,55 @@
+.consultarReservasG-container {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .consultarReservasG-filterContainer {
+    margin-bottom: 20px;
+  }
+  
+  .consultarReservasG-filterSelect {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .consultarReservasG-tableContainer {
+    overflow-x: auto;
+  }
+  
+  .consultarReservasG-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .consultarReservasG-th {
+    border-bottom: 2px solid #ddd;
+    padding: 12px;
+    background-color: #f4f4f4;
+  }
+  
+  .consultarReservasG-td {
+    border-bottom: 1px solid #ddd;
+    padding: 12px;
+  }
+  
+  .consultarReservasG-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .consultarReservasG-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .consultarReservasG-button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  

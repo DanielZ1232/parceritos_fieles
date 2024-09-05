@@ -1,0 +1,126 @@
+/* ConsultarReservaC.module.css */
+
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(183, 183, 183, 0.75);
+    border-radius: 10px;
+}
+
+.content h2 {
+    margin-bottom: 20px;
+    font-size: xx-large;
+    color: black;
+}
+
+.tableContainer {
+    background-color: rgba(225, 215, 215, 0.8);
+    padding: 20px;
+    border-radius: 5px;
+    width: 95%;
+    max-width: 800px;
+    overflow-x: auto;
+}
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    color: black;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #bfbcbcbf;
+    font-weight: bold;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #3e8e41;
+}
+
+.footer {
+    background-color: #333;
+    padding: 20px;
+    text-align: center;
+    color: white;
+}
+
+.socialMedia {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.socialMedia li {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.socialMedia a {
+    color: #fff;
+    font-size: 20px;
+}
+
+ /* Botón flotante de WhatsApp */
+ .whatsapp-button {
+    position: fixed;
+    bottom: 20px; /* Ajusta la distancia desde el fondo */
+    right: 20px; /* Ajusta la distancia desde el borde derecho */
+    background-color: #25D366; /* Color de WhatsApp */
+    color: #fff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 24px;
+    text-decoration: none;
+    z-index: 1000; /* Asegura que el botón esté sobre otros elementos */
+  }
+  
+  .whatsapp-button:hover {
+    background-color: #128C7E; /* Color verde más oscuro al pasar el mouse */
+  }

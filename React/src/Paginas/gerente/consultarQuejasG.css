@@ -1,0 +1,78 @@
+.consultarQuejasG-container {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .consultarQuejasG-table-container {
+    overflow-x: auto;
+  }
+  
+  .consultarQuejasG-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .consultarQuejasG-table th {
+    border-bottom: 2px solid #ddd;
+    padding: 12px;
+    background-color: #f4f4f4;
+  }
+  
+  .consultarQuejasG-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 12px;
+  }
+  
+  .consultarQuejasG-button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .consultarQuejasG-button:hover {
+    background-color: #218838;
+  }
+  
+  .consultarQuejasG-button-primary {
+    background-color: #007bff;
+  }
+  
+  .consultarQuejasG-button-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .consultarQuejasG-textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    resize: vertical;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .consultarQuejasG-textarea:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .consultarQuejasG-queja-content {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .consultarQuejasG-response-section {
+    margin-top: 20px;
+  }
+  

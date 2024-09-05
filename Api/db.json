@@ -1,0 +1,173 @@
+{
+  "Usuarios": [
+    {
+      "Nombre": "Daniel",
+      "Apellido": "Zuñiga",
+      "Correo": "dzuniga873@gmail.com",
+      "Contraseña": "123456",
+      "Celular": "3166617088",
+      "Direccion": "Calle 158 #96 a - 77",
+      "TipoDocumento": "CC",
+      "NumeroDocumento": "1127615970",
+      "id": "1724617958266",
+      "Rol": "Empleado"
+    },
+    {
+      "id": "1724787393052",
+      "Nombre": "Luis",
+      "Apellido": "Alejandro",
+      "Correo": "lugobecerra9@gmail.com",
+      "Celular": "3115958040",
+      "Direccion": "diagonal 104 #140-31",
+      "TipoDocumento": "CC",
+      "NumeroDocumento": "1025524584",
+      "Contraseña": "lugo1234",
+      "Rol": "Cliente"
+    },
+    {
+      "id": "1724820219075",
+      "Nombre": "Miguel ",
+      "Apellido": "Uran",
+      "Correo": "migueluran597@gmail.com",
+      "Celular": "3506842198",
+      "Direccion": "kr 114 # 152-d12",
+      "TipoDocumento": "CC",
+      "NumeroDocumento": "1019029870",
+      "Contraseña": "123456",
+      "Rol": "Gerente"
+    },
+    {
+      "id": "1724860548680",
+      "Nombre": "Miguel",
+      "Apellido": "Duran",
+      "Correo": "migueluran465@gmail.com",
+      "Celular": "3506842198",
+      "Direccion": "kr 114 # 152-d12",
+      "TipoDocumento": "CC",
+      "NumeroDocumento": "1213141516",
+      "Contraseña": "123456",
+      "Rol": "Empleado"
+    },
+    {
+      "id": "1724862281241",
+      "Nombre": "erick",
+      "Apellido": "granados ",
+      "Correo": "snarly@misena.edu.co",
+      "Celular": "3506842198",
+      "Direccion": "kr 114 # 152-d12",
+      "TipoDocumento": "CC",
+      "NumeroDocumento": "1213141516",
+      "Contraseña": "123456",
+      "Rol": "Cliente"
+    }
+  ],
+  "Mascotas": [
+    {
+      "id": "5a96",
+      "Nombre": "pan",
+      "Raza": "mestizo",
+      "Enfermedades": "no tiene",
+      "Peso": "23 kg",
+      "Edad": "1",
+      "Sexo": "masculino",
+      "Esterilizado": "si",
+      "usuarioId": "1724787393052"
+    },
+    {
+      "id": "4998",
+      "Nombre": "pan",
+      "Raza": "mestizo",
+      "Enfermedades": "no tiene",
+      "Peso": "23 kg",
+      "Edad": "1",
+      "Sexo": "masculino",
+      "Esterilizado": "si",
+      "usuarioId": "1724787393052"
+    },
+    {
+      "id": "e836",
+      "Nombre": "miguel",
+      "Raza": "dormilon",
+      "Enfermedades": "adicto a las empanadas",
+      "Peso": "10 kg",
+      "Edad": "13",
+      "Sexo": "femenino",
+      "Esterilizado": "no",
+      "usuarioId": "1724787393052"
+    },
+    {
+      "id": "1724617958267",
+      "Nombre": "Bella",
+      "Raza": "Pitbull",
+      "Edad": "2",
+      "Sexo": "Hembra",
+      "Peso": "20kg",
+      "Enfermedades": "Ninguna",
+      "Esterilizado": "No",
+      "usuarioId": "1724787393052"
+    },
+    {
+      "id": "eb50",
+      "Nombre": "daniel ",
+      "Raza": "rara",
+      "Enfermedades": "sida",
+      "Peso": "67",
+      "Edad": "4",
+      "Sexo": "macho ",
+      "Esterilizado": "no",
+      "usuarioId": "1724787393052"
+    }
+  ],
+  "Reservas": [
+    {
+      "id": "317f",
+      "fechaInicio": "2024-08-28",
+      "fechaFinal": "2024-08-31",
+      "mascota": "miguel",
+      "celular": "3133186012",
+      "correo": "lugobecerra9@gmail.com",
+      "estado": "Por Confirmar",
+      "usuarioId": "1724787393052"
+    },
+    {
+      "id": "7332",
+      "fechaInicio": "2024-09-01",
+      "fechaFinal": "2024-09-08",
+      "mascota": "pan",
+      "celular": "3133186012",
+      "correo": "lugobecerra9@gmail.com",
+      "estado": "Por Confirmar",
+      "usuarioId": "1724787393052"
+    },
+    {
+      "id": "1f99",
+      "fechaInicio": "2024-09-01",
+      "fechaFinal": "2024-09-10",
+      "mascota": "Bella",
+      "celular": "3506842198",
+      "correo": "lugobecerra9@gmail.com",
+      "estado": "Por Confirmar",
+      "usuarioId": "1724787393052"
+    }
+  ],
+  "Quejas": [
+    {
+      "id": "8240",
+      "texto": "Muy mal servicio con el empleado Daniel\n",
+      "usuarioId": "1724787393052",
+      "nombre": "Luis",
+      "correo": "lugobecerra9@gmail.com",
+      "fecha": "2024-08-28",
+      "hora": "08:23:01"
+    },
+    {
+      "id": "4961",
+      "texto": "mala gestion ",
+      "usuarioId": "1724862281241",
+      "nombre": "erick",
+      "correo": "snarly@misena.edu.co",
+      "fecha": "2024-08-28",
+      "hora": "11:31:10"
+    }
+  ]
+}
