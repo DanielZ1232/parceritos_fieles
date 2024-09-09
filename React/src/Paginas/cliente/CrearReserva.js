@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Importa axios
+import axios from 'axios';
 import NavBarCliente from '../../components/navBarCliente';
 import Footer from '../../components/footer';
-import styles from './CrearReserva.module.css'; // Importa los estilos como módulo
-import emailjs from 'emailjs-com'; // Importa EmailJS
+import styles from './CrearReserva.module.css';
+import emailjs from 'emailjs-com';
+import Swal from 'sweetalert2';
 
 const CrearReserva = () => {
   const [formData, setFormData] = useState({
@@ -15,22 +16,25 @@ const CrearReserva = () => {
     estado: 'Por Confirmar'
   });
 
-  const [mascotas, setMascotas] = useState([]); // Estado para almacenar las mascotas
-  const [usuarios, setUsuarios] = useState([]); // Estado para almacenar los usuarios
-  const [userId, setUserId] = useState(localStorage.getItem('usuarioId')); // Estado para almacenar el ID del usuario
+  const [mascotas, setMascotas] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
+  const [userId, setUserId] = useState(localStorage.getItem('usuarioId'));
+
+  const today = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
     const fetchMascotas = async () => {
       try {
         const response = await axios.get('http://localhost:3002/Mascotas');
-        setMascotas(response.data);
+        const mascotasUsuario = response.data.filter(mascota => mascota.usuarioId === userId);
+        setMascotas(mascotasUsuario);
       } catch (error) {
         console.error('Error al obtener las mascotas:', error);
       }
     };
 
-    fetchMascotas(); // Llama a la función cuando el componente se monte
-  }, []);
+    fetchMascotas();
+  }, [userId]);
 
   useEffect(() => {
     const fetchUsuarios = async () => {
@@ -42,7 +46,7 @@ const CrearReserva = () => {
       }
     };
 
-    fetchUsuarios(); // Llama a la función cuando el componente se monte
+    fetchUsuarios();
   }, []);
 
   const handleChange = (e) => {
@@ -56,39 +60,49 @@ const CrearReserva = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Verifica que userId esté disponible
     if (!userId) {
       console.error('ID del usuario no encontrado en localStorage');
-      alert('ID del usuario no encontrado. Por favor, inicie sesión nuevamente.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'ID del usuario no encontrado. Por favor, inicie sesión nuevamente.'
+      });
       return;
     }
 
     const reserva = {
       ...formData,
-      usuarioId: userId // Agregar el ID del usuario a la reserva
+      usuarioId: userId
     };
 
     try {
-      // Enviar solicitud POST para crear reserva
       const response = await axios.post('http://localhost:3002/Reservas', reserva, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
 
-      if (response.status === 201) { // Cambiar a 201 si es el código de éxito para creación
-        alert('Reserva creada exitosamente');
+      if (response.status === 201) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Reserva creada exitosamente",
+          showConfirmButton: false,
+          timer: 1500
+        });
 
-        // Verifica que el usuario esté en la lista de usuarios
         const usuario = usuarios.find(user => user.id === userId);
 
         if (!usuario) {
           console.error('Usuario no encontrado');
-          alert('Usuario no encontrado. Verifique su sesión.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Usuario no encontrado. Verifique su sesión.',
+          });
           return;
         }
 
-        // Enviar correo electrónico con EmailJS
         const templateParams = {
           to_name: usuario.Nombre,
           from_name: 'Tu Aplicación',
@@ -102,32 +116,49 @@ const CrearReserva = () => {
 
         try {
           await emailjs.send(
-            'service_91sjn3i', // Reemplaza con tu ID de servicio
-            'template_tybdlva', // Reemplaza con tu ID de plantilla
+            'service_91sjn3i',
+            'template_tybdlva',
             templateParams,
-            'QyL_P2wB9V3Z0clnB' // Reemplaza con tu clave pública
+            'QyL_P2wB9V3Z0clnB'
           );
-          alert('Correo de confirmación enviado exitosamente');
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Correo de confirmación enviado exitosamente",
+            showConfirmButton: false,
+            timer: 1500
+          });
         } catch (emailError) {
           console.error('Error al enviar el correo:', emailError);
-          alert('Error al enviar el correo. Inténtalo de nuevo más tarde.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error al enviar el correo. Inténtalo de nuevo más tarde.',
+          });
         }
 
-        // Limpiar el formulario
         setFormData({
-          FechaInicio: '',
-          FechaFinal: '',
-          Mascota: '',
-          Celular: '',
-          Correo: ''
+          fechaInicio: '',
+          fechaFinal: '',
+          mascota: '',
+          celular: '',
+          correo: ''
         });
       } else {
         console.error('Error al crear la reserva:', response.status);
-        alert('Error al crear la reserva. Inténtalo de nuevo más tarde.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error al crear la reserva. Inténtalo de nuevo más tarde.',
+        });
       }
     } catch (error) {
       console.error('Error de red:', error);
-      alert('Error de red. Inténtalo de nuevo más tarde.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error de red. Inténtalo de nuevo más tarde.',
+      });
     }
   };
 
@@ -144,8 +175,9 @@ const CrearReserva = () => {
                 type="date" 
                 id="fechaInicio" 
                 name="fechaInicio" 
-                value={formData.FechaInicio}
+                value={formData.fechaInicio}
                 onChange={handleChange}
+                min={today}
                 required 
               />
             </div>
@@ -155,8 +187,9 @@ const CrearReserva = () => {
                 type="date" 
                 id="fechaFinal" 
                 name="fechaFinal" 
-                value={formData.FechaFinal}
+                value={formData.fechaFinal}
                 onChange={handleChange}
+                min={today}
                 required 
               />
             </div>
@@ -167,7 +200,7 @@ const CrearReserva = () => {
               <select 
                 id="mascota" 
                 name="mascota" 
-                value={formData.Mascota}
+                value={formData.mascota}
                 onChange={handleChange}
                 required
               >
@@ -186,7 +219,7 @@ const CrearReserva = () => {
                 id="celular" 
                 name="celular" 
                 placeholder="Ingrese su número de celular" 
-                value={formData.Celular}
+                value={formData.celular}
                 onChange={handleChange}
                 required 
               />
@@ -199,7 +232,7 @@ const CrearReserva = () => {
               id="correo" 
               name="correo" 
               placeholder="Ingrese su correo electrónico" 
-              value={formData.Correo}
+              value={formData.correo}
               onChange={handleChange}
               required 
             />
@@ -208,8 +241,7 @@ const CrearReserva = () => {
         </form>
       </div>
       <Footer className={styles.footer} />
-      {/* Botón flotante de WhatsApp */}
-      <a href="https://wa.me/1234567890" className="whatsapp-button" target="_blank" rel="noopener noreferrer">
+      <a href="https://wa.me/1234567890" className={styles.whatsappButton} target="_blank" rel="noopener noreferrer">
         <i className="fab fa-whatsapp"></i>
       </a>
     </div>

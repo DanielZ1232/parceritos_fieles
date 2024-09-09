@@ -79,7 +79,7 @@ const MenuGerente = () => {
                 <div className="empleados-grid">
                     {empleados.filter(empleado => empleado.Rol === 'Empleado').map((empleado) => (
                         <div key={empleado.id} className="empleado-card">
-                            <h3>{empleado.Nombre}</h3>
+                            <h3 className='emp'>{empleado.Nombre}</h3>
                             <p>{empleado.Rol}</p>
                         </div>
                     ))}

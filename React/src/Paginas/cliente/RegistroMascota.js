@@ -4,6 +4,7 @@ import Footer from '../../components/footer'; // Asegúrate de que esta ruta es 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import './registrar_mascota.css'; // Asegúrate de que esta ruta es correcta
+import Swal from 'sweetalert2';
 
 const RegistroMascota = () => {
   const [formData, setFormData] = useState({
@@ -18,9 +19,19 @@ const RegistroMascota = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    // Formatear el valor basado en el nombre del campo
+    let formattedValue = value;
+    if (name !== 'edad') {
+      // Formatear solo los campos que no sean edad
+      formattedValue = value
+        .toLowerCase()
+        .replace(/^\w/, c => c.toUpperCase()); // Capitaliza la primera letra
+    }
+
     setFormData({
       ...formData,
-      [name]: value
+      [name]: formattedValue
     });
   };
 
@@ -35,7 +46,13 @@ const RegistroMascota = () => {
         body: JSON.stringify(formData)
       });
       if (response.ok) {
-        alert('Mascota registrada exitosamente');
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Mascota registrada exitosamente',
+          showConfirmButton: false,
+          timer: 1500
+        });
         setFormData({
           nombre: '',
           raza: '',
@@ -47,9 +64,21 @@ const RegistroMascota = () => {
         });
       } else {
         console.error('Error al registrar la mascota:', response.status);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al registrar la mascota',
+          text: 'Por favor, intente nuevamente.',
+          confirmButtonText: 'Aceptar'
+        });
       }
     } catch (error) {
       console.error('Error de red:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de red',
+        text: 'No se pudo registrar la mascota. Inténtelo de nuevo más tarde.',
+        confirmButtonText: 'Aceptar'
+      });
     }
   };
 

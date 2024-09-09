@@ -1,13 +1,7 @@
-/* ConsultarReservaC.module.css */
-
 .pageContainer {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-}
-
-main {
-    flex: 1;
 }
 
 .container {
@@ -21,37 +15,10 @@ main {
     margin: 20px;
 }
 
-.content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: rgba(183, 183, 183, 0.75);
-    border-radius: 10px;
-}
-
-.content h2 {
-    margin-bottom: 20px;
-    font-size: xx-large;
-    color: black;
-}
-
-.tableContainer {
-    background-color: rgba(225, 215, 215, 0.8);
-    padding: 20px;
-    border-radius: 5px;
-    width: 95%;
-    max-width: 800px;
-    overflow-x: auto;
-}
-
-
-
-table {
+.table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
-    color: black;
 }
 
 th, td {
@@ -64,17 +31,18 @@ th {
     font-weight: bold;
 }
 
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
+.cancelIcon {
+    color: #f00; /* Color rojo para el icono */
     cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-button:hover {
-    background-color: #3e8e41;
+.cancelIcon:hover {
+    color: #c00; /* Color rojo oscuro en hover */
+}
+
+.filterContainer {
+    margin-top: 20px;
 }
 
 .footer {
@@ -84,26 +52,7 @@ button:hover {
     color: white;
 }
 
-.socialMedia {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    margin-top: 10px;
-}
-
-.socialMedia li {
-    display: inline-block;
-    margin: 0 5px;
-}
-
-.socialMedia a {
-    color: #fff;
-    font-size: 20px;
-}
-
- /* Botón flotante de WhatsApp */
- .whatsapp-button {
+.whatsappButton {
     position: fixed;
     bottom: 20px; /* Ajusta la distancia desde el fondo */
     right: 20px; /* Ajusta la distancia desde el borde derecho */
@@ -119,8 +68,8 @@ button:hover {
     font-size: 24px;
     text-decoration: none;
     z-index: 1000; /* Asegura que el botón esté sobre otros elementos */
-  }
-  
-  .whatsapp-button:hover {
+}
+
+.whatsappButton:hover {
     background-color: #128C7E; /* Color verde más oscuro al pasar el mouse */
-  }
+}

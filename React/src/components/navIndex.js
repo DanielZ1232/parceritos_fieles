@@ -12,7 +12,7 @@ const NavIndex = () => {
                         <li><a href="#nosotros">Nosotros</a></li>
                         <li><a href="#servicio">Servicios</a></li>
                         <li><a href="#ubicacion">Ubicación</a></li>
-                        <li><a href="#contacto">Contacto</a></li>
+                        <li><a href="#opiniones">Opiniones</a></li>
                     </ul>
                 </nav>
             </div>

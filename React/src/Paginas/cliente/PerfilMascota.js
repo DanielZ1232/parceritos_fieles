@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // Importa useNavigate para redirigir
 import NavBarCliente from '../../components/navBarCliente'; // Asegúrate de que la ruta es correcta
 import Footer from '../../components/footer'; // Asegúrate de que la ruta es correcta
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,6 +12,7 @@ import PerroImg from '../../assets/Imagenes/perro2.jpeg'; // Ajusta la ruta si e
 const PerfilMascota = () => {
   const { id } = useParams();
   const [mascota, setMascota] = useState(null);
+  const navigate = useNavigate(); // Hook para redirigir
 
   useEffect(() => {
     const fetchMascota = async () => {
@@ -31,6 +32,24 @@ const PerfilMascota = () => {
     fetchMascota();
   }, [id]);
 
+  // Función para eliminar la mascota
+  const handleEliminar = async () => {
+    try {
+      const response = await fetch(`http://localhost:3002/Mascotas/${id}`, {
+        method: 'DELETE', // Método DELETE para eliminar el recurso
+      });
+
+      if (response.ok) {
+        alert('Mascota eliminada con éxito');
+        navigate('/consultar-mascota'); // Redirige a la página ConsultarMascotas después de eliminar
+      } else {
+        console.error('Error al eliminar la mascota:', response.status);
+      }
+    } catch (error) {
+      console.error('Error de red:', error);
+    }
+  };
+
   return (
     <div className="page-container">
       <NavBarCliente />
@@ -47,35 +66,35 @@ const PerfilMascota = () => {
               <div className="info-ite">
                 <div className="info-item">
                   <i className="fa-solid fa-paw" />
-                  <span>Nombre<br />{mascota.nombre}</span>
+                  <span>Nombre<br />{mascota.Nombre}</span>
                 </div>
                 <div className="info-item">
                   <i className="fa-solid fa-paw" />
-                  <span>Edad<br />{mascota.edad} años</span>
+                  <span>Edad<br />{mascota.Edad} años</span>
                 </div>
                 <div className="info-item">
                   <i className="fa-solid fa-paw" />
-                  <span>Peso<br />{mascota.peso} Kg</span>
+                  <span>Peso<br />{mascota.Peso}</span>
                 </div>
               </div>
               <div className="info-ite2">
                 <div className="info-item">
                   <i className="fa-solid fa-paw" />
-                  <span>Raza<br />{mascota.raza}</span>
+                  <span>Raza<br />{mascota.Raza}</span>
                 </div>
                 <div className="info-item">
                   <i className="fa-solid fa-paw" />
-                  <span>Enfermedades<br />{mascota.enfermedades}</span>
+                  <span>Enfermedades<br />{mascota.Enfermedades}</span>
                 </div>
                 <div className="info-item-direc">
                   <i className="fa-solid fa-paw" />
-                  <span>Esterilizado<br />{mascota.esterilizado === 'si' ? 'Sí' : 'No'}</span>
+                  <span>Esterilizado<br />{mascota.Esterilizado === 'si' ? 'Sí' : 'No'}</span>
                 </div>
               </div>
             </div>
             <div className="boton">
               <center>
-                <a href="ActualizarDatos.html" className="button">Eliminar</a>
+                <button onClick={handleEliminar} className="button">Eliminar</button>
               </center>
             </div>
           </>

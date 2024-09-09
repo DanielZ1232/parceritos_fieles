@@ -6,13 +6,17 @@ import './consultarQuejasC.css'; // Asegúrate de que la ruta es correcta y el n
 const ConsultarQuejasC = () => {
     const [quejas, setQuejas] = useState([]);
     const [usuarios, setUsuarios] = useState({});
+    const userId = localStorage.getItem('usuarioId'); // Obtén el ID del usuario desde el localStorage
 
     // Función para obtener las quejas desde el backend
     const fetchQuejas = async () => {
         try {
             const response = await fetch('http://localhost:3002/Quejas'); // Ajusta la URL según la configuración de tu API
             const data = await response.json();
-            setQuejas(data);
+
+            // Filtra las quejas del usuario actual
+            const filteredQuejas = data.filter(queja => queja.usuarioId === userId);
+            setQuejas(filteredQuejas);
 
             // Obtén los usuarios
             const usuariosResponse = await fetch('http://localhost:3002/Usuarios');
@@ -33,8 +37,8 @@ const ConsultarQuejasC = () => {
     }, []);
 
     // Función para alternar la visibilidad del contenido de la queja
-    const toggleQueja = (button) => {
-        const row = button.closest('tr').nextElementSibling;
+    const toggleQueja = (event) => {
+        const row = event.currentTarget.closest('tr').nextElementSibling;
         if (row.style.display === 'none') {
             row.style.display = 'table-row';
         } else {
@@ -48,7 +52,7 @@ const ConsultarQuejasC = () => {
             <div className="container">
                 <div className="content">
                     <h2>Quejas</h2>
-                    <p>Estas son las últimas quejas registradas en el sistema</p>
+                    <p>Estas son las quejas registradas por usted en el sistema</p>
                     <div className="table-container">
                         <table>
                             <thead>
@@ -73,7 +77,11 @@ const ConsultarQuejasC = () => {
                                                 <td>{usuario.Correo || 'Desconocido'}</td>
                                                 <td>{usuario.Celular || 'Desconocido'}</td>
                                                 <td>
-                                                    <button className="ver-btn" onClick={(e) => toggleQueja(e.target)}>Ver</button>
+                                                    <i 
+                                                        className="fas fa-eye" 
+                                                        onClick={toggleQueja}
+                                                        style={{ cursor: 'pointer' }}
+                                                    ></i>
                                                 </td>
                                             </tr>
                                             <tr className="queja-row" style={{ display: 'none' }}>
@@ -93,8 +101,8 @@ const ConsultarQuejasC = () => {
                 </div>
             </div>
             <Footer className="footer-sticky" />
-             {/* Botón flotante de WhatsApp */}
-             <a href="https://wa.me/1234567890" className="whatsapp-button" target="_blank" rel="noopener noreferrer">
+            {/* Botón flotante de WhatsApp */}
+            <a href="https://wa.me/1234567890" className="whatsapp-button" target="_blank" rel="noopener noreferrer">
                 <i className="fab fa-whatsapp"></i>
             </a>
         </div>

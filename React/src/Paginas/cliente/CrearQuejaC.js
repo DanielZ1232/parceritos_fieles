@@ -3,6 +3,7 @@ import NavBarCliente from '../../components/navBarCliente'; // Ajusta la ruta se
 import Footer from '../../components/footer'; // Ajusta la ruta según tu estructura de carpetas
 import './crearQuejaC.css';
 import Logo from '../../assets/Imagenes/logo.png'; // Asegúrate de que la ruta es correcta
+import Swal from 'sweetalert2';
 
 const CrearQuejaC = () => {
     const maxLength = 250; // Número máximo de caracteres permitidos
@@ -19,7 +20,11 @@ const CrearQuejaC = () => {
     // Manejador para guardar la queja
     const handleSave = async () => {
         if (!text.trim()) {
-            alert('Por favor, escriba su queja antes de guardar.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Por favor, escriba su queja antes de guardar.',
+                confirmButtonText: 'Aceptar'
+            });
             return;
         }
 
@@ -43,14 +48,27 @@ const CrearQuejaC = () => {
             });
 
             if (response.ok) {
-                alert('Queja guardada con éxito.');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Queja guardada con éxito.',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
                 setText(''); // Limpia el textarea
             } else {
-                alert('Error al guardar la queja.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al guardar la queja.',
+                    confirmButtonText: 'Aceptar'
+                });
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('Error al guardar la queja.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al guardar la queja.',
+                confirmButtonText: 'Aceptar'
+            });
         } finally {
             setIsSaving(false);
         }
@@ -59,10 +77,10 @@ const CrearQuejaC = () => {
     return (
         <div className="crear-queja-container">
             <NavBarCliente />
-            <div className="container">
+            <div className="form-wrapper">
                 <div className="form-container">
                     <img id="logo" src={Logo} alt="Parceritos Fieles" />
-                    <h1>Crear Queja</h1>
+                    <h1 className="form-title">Crear Queja</h1>
                     <div className="textarea-wrapper">
                         <textarea 
                             placeholder="Escriba su queja" 
@@ -80,8 +98,8 @@ const CrearQuejaC = () => {
                 </div>
             </div>
             <Footer className="footer" />
-             {/* Botón flotante de WhatsApp */}
-             <a href="https://wa.me/1234567890" className="whatsapp-button" target="_blank" rel="noopener noreferrer">
+            {/* Botón flotante de WhatsApp */}
+            <a href="https://wa.me/1234567890" className="whatsapp-button" target="_blank" rel="noopener noreferrer">
                 <i className="fab fa-whatsapp"></i>
             </a>
         </div>

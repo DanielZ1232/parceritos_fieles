@@ -76,8 +76,7 @@ select {
   padding: 10px;
 }
 
- /* Botón flotante de WhatsApp */
- .whatsapp-button {
+.whatsappButton {
   position: fixed;
   bottom: 20px; /* Ajusta la distancia desde el fondo */
   right: 20px; /* Ajusta la distancia desde el borde derecho */
@@ -95,6 +94,6 @@ select {
   z-index: 1000; /* Asegura que el botón esté sobre otros elementos */
 }
 
-.whatsapp-button:hover {
+.whatsappButton:hover {
   background-color: #128C7E; /* Color verde más oscuro al pasar el mouse */
 }

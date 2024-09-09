@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import NavBarCliente from '../../components/navBarCliente';
 import Footer from '../../components/footer';
 import styles from './ConsultarReservaC.module.css'; // Importa los estilos como módulo
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const ConsultarReservaC = () => {
   const [reservas, setReservas] = useState([]);
   const [filteredReservas, setFilteredReservas] = useState([]);
-  const [filterDate, setFilterDate] = useState(''); // Estado para la fecha de filtro
-  const userId = localStorage.getItem('usuarioId'); // Obtener el ID del usuario
+  const [filterDate, setFilterDate] = useState('');
+  const [availableDates, setAvailableDates] = useState([]); // Estado para fechas disponibles
+  const userId = localStorage.getItem('usuarioId');
 
   useEffect(() => {
     const fetchReservas = async () => {
@@ -15,10 +18,13 @@ const ConsultarReservaC = () => {
         const response = await fetch('http://localhost:3002/Reservas');
         if (response.ok) {
           const reservasData = await response.json();
-          // Filtra las reservas para mostrar solo las del usuario autenticado
           const userReservas = reservasData.filter(reserva => reserva.usuarioId === userId);
           setReservas(userReservas);
-          setFilteredReservas(userReservas); // Inicialmente, muestra todas las reservas del usuario
+          setFilteredReservas(userReservas);
+
+          // Extrae las fechas únicas de las reservas para el filtro
+          const dates = Array.from(new Set(userReservas.map(reserva => reserva.fechaInicio)));
+          setAvailableDates(dates);
         } else {
           console.error('Error al obtener las reservas:', response.status);
         }
@@ -27,7 +33,7 @@ const ConsultarReservaC = () => {
       }
     };
 
-    fetchReservas(); // Llama a la función cuando el componente se monte
+    fetchReservas();
   }, [userId]);
 
   const handleCancel = async (id) => {
@@ -50,12 +56,11 @@ const ConsultarReservaC = () => {
     const selectedDate = e.target.value;
     setFilterDate(selectedDate);
 
-    // Filtra las reservas por la fecha seleccionada
-    if (selectedDate) {
+    if (selectedDate && availableDates.includes(selectedDate)) {
       const filtered = reservas.filter(reserva => reserva.fechaInicio === selectedDate);
       setFilteredReservas(filtered);
     } else {
-      setFilteredReservas(reservas); // Si no hay fecha seleccionada, muestra todas las reservas
+      setFilteredReservas(reservas); // Si no hay fecha seleccionada o fecha no válida, muestra todas las reservas
     }
   };
 
@@ -86,12 +91,12 @@ const ConsultarReservaC = () => {
                 <td>{reserva.mascota}</td>
                 <td>{reserva.estado || 'Por Confirmar'}</td>
                 <td>
-                  <button 
-                    className={styles.cancelButton} 
+                  <FontAwesomeIcon 
+                    icon={faTimes} 
+                    size="lg" 
+                    className={styles.cancelIcon} 
                     onClick={() => handleCancel(reserva.id)}
-                  >
-                    Cancelar
-                  </button>
+                  />
                 </td>
               </tr>
             ))}
@@ -105,12 +110,13 @@ const ConsultarReservaC = () => {
             id="filterDate" 
             value={filterDate}
             onChange={handleDateChange}
+            min={availableDates.length > 0 ? availableDates[0] : ''} // Establece la fecha mínima disponible
           />
         </div>
       </div>
       <Footer className={styles.footer} />
       {/* Botón flotante de WhatsApp */}
-      <a href="https://wa.me/1234567890" className="whatsapp-button" target="_blank" rel="noopener noreferrer">
+      <a href="https://wa.me/1234567890" className={styles.whatsappButton} target="_blank" rel="noopener noreferrer">
         <i className="fab fa-whatsapp"></i>
       </a>
     </div>
