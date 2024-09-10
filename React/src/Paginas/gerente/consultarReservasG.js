@@ -3,6 +3,7 @@ import NavBarGerente from '../../components/navBarGerente';
 import Footer from '../../components/footer';
 import './consultarReservasG.css';
 import axios from 'axios';
+import Swal from 'sweetalert2'; // Importa SweetAlert2
 
 const ConsultarReservasG = () => {
   const [reservas, setReservas] = useState([]);
@@ -23,17 +24,39 @@ const ConsultarReservasG = () => {
 
   const confirmarReserva = async (index) => {
     const reserva = reservas[index];
-    const nuevaReserva = { ...reserva, estado: 'Confirmada' };
+    
+    // Mostrar confirmación antes de confirmar la reserva
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'No podrás revertir esto.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const nuevaReserva = { ...reserva, estado: 'Confirmada' };
 
-    try {
-      await axios.put(`http://localhost:3002/Reservas/${reserva.id}`, nuevaReserva);
-      const nuevasReservas = reservas.map((reserva, i) =>
-        i === index ? nuevaReserva : reserva
-      );
-      setReservas(nuevasReservas);
-    } catch (error) {
-      console.error('Error al confirmar la reserva:', error);
-    }
+        try {
+          await axios.put(`http://localhost:3002/Reservas/${reserva.id}`, nuevaReserva);
+          const nuevasReservas = reservas.map((reserva, i) =>
+            i === index ? nuevaReserva : reserva
+          );
+          setReservas(nuevasReservas);
+
+          // Mostrar mensaje de éxito
+          Swal.fire({
+            title: '¡Confirmado!',
+            text: 'La reserva ha sido confirmada.',
+            icon: 'success'
+          });
+        } catch (error) {
+          console.error('Error al confirmar la reserva:', error);
+        }
+      }
+    });
   };
 
   const handleFiltroChange = (e) => {
@@ -84,13 +107,15 @@ const ConsultarReservasG = () => {
                   <td className="consultarReservasG-td">{reserva.correo}</td>
                   <td className="consultarReservasG-td">{reserva.estado}</td>
                   <td className="consultarReservasG-td">
-                    <button
-                      className="consultarReservasG-button"
-                      onClick={() => confirmarReserva(index)}
-                      disabled={reserva.estado !== 'Por Confirmar'}
-                    >
-                      {reserva.estado === 'confirmada' ? 'Confirmado' : 'Confirmar'}
-                    </button>
+                    {reserva.estado === 'Por Confirmar' && (
+                      <i
+                        className="fa-solid fa-check consultarReservasG-icon"
+                        onClick={() => confirmarReserva(index)}
+                      />
+                    )}
+                    {reserva.estado === 'Confirmada' && (
+                      <i className="fa-solid fa-check consultarReservasG-icon" />
+                    )}
                   </td>
                 </tr>
               ))}

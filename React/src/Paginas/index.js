@@ -46,16 +46,32 @@ function Index() {
     const [registerNumeroDocumento, setRegisterNumeroDocumento] = useState('');
     const [registerContraseña, setRegisterContraseña] = useState('');
     const [registerConfirmarContraseña, setRegisterConfirmarContraseña] = useState('');
+    const [paginaActual, setPaginaActual] = useState(1); // Página actual
+    const [totalPaginas, setTotalPaginas] = useState(0); // Total de páginas
+    const [opinionesPagina, setOpinionesPagina] = useState([]); // Opiniones de la página actual
     const maxCaracteres = 300;
+    const opinionesPorPagina = 6; // Número de opiniones por página
     const navigate = useNavigate();
 
-    useEffect(() => {
-        axios.get('http://localhost:3002/Opiniones')
-            .then(response => setOpiniones(response.data))
-            .catch(error => console.error('Error al cargar opiniones:', error));
-    }, []);
+     // Obtener las opiniones de la API
+     useEffect(() => {
+        const fetchOpiniones = async () => {
+            try {
+                const respuesta = await axios.get('http://localhost:3002/Opiniones');
+                const opinionesData = respuesta.data;
+                setOpiniones(opinionesData);
+                setTotalPaginas(Math.ceil(opinionesData.length / opinionesPorPagina));
+                setOpinionesPagina(opinionesData.slice((paginaActual - 1) * opinionesPorPagina, paginaActual * opinionesPorPagina));
+            } catch (error) {
+                console.error('Error al cargar opiniones:', error);
+            }
+        };
 
-    const handleSubmit = (e) => {
+        fetchOpiniones();
+    }, [paginaActual]);
+
+    // Función para manejar el envío de la opinión
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const nuevaOpinion = {
@@ -66,31 +82,29 @@ function Index() {
             hora: new Date().toISOString().split('T')[1].split('.')[0]
         };
 
-        axios.post('http://localhost:3002/Opiniones', nuevaOpinion)
-            .then(response => {
-                setOpiniones([...opiniones, nuevaOpinion]);
-                setNombre('');
-                setTexto('');
-                setModalVisible(false);
-
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Tu opinión ha sido guardada',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            })
-            .catch(error => {
-                console.error('Hubo un error al enviar la opinión', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error al enviar la opinión',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Aceptar'
-                });
+        try {
+            await axios.post('http://localhost:3002/Opiniones', nuevaOpinion);
+            setOpiniones([...opiniones, nuevaOpinion]);
+            setNombre('');
+            setTexto('');
+            setModalVisible(false);
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Tu opinión ha sido guardada',
+                showConfirmButton: false,
+                timer: 1500
             });
+        } catch (error) {
+            console.error('Hubo un error al enviar la opinión', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al enviar la opinión',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
+        }
     };
 
     const manejarInicioSesion = async (e) => {
@@ -249,6 +263,25 @@ function Index() {
         setRegisterApellido(formattedValue);
     };
 
+    // Cambiar de página
+    const handlePageChange = (nuevaPagina) => {
+        if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
+            setPaginaActual(nuevaPagina);
+        }
+    };
+
+    const handleTextoChange = (e) => {
+        const value = e.target.value;
+        const formattedValue = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+        setTexto(formattedValue);
+    };
+
+    const handleNombreChange = (e) => {
+        const value = e.target.value;
+        const formattedValue = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+        setNombre(formattedValue);
+    };
+
     return (
         <div>
             <NavIndex />
@@ -328,62 +361,69 @@ function Index() {
                     </center>
                 </div>
             </section>
-            <section className="opinions" id="opiniones">
-                <div className="container">
-                    <h2>Opiniones</h2>
-                    <button onClick={() => setModalVisible(true)} className="custom-btn">Agregar Opinión</button>
-                    <div className="opinions-wrapper">
-                        {opiniones.map(opinion => (
-                            <div key={opinion.id} className="opinion">
-                                <p>{opinion.texto}</p>
-                                <h4>- {opinion.nombre}</h4>
-                                <p><small>{opinion.fecha} {opinion.hora}</small></p>
+             {/* Contenido de la página */}
+             <section className="opinions" id="opiniones">
+            <div className="container">
+                <h2>Opiniones</h2>
+                <button onClick={() => setModalVisible(true)} className="custom-btn">Agregar Opinión</button>
+                <div className="opinions-wrapper">
+                    {opinionesPagina.map(opinion => (
+                        <div key={opinion.id} className="opinion">
+                            <p>{opinion.texto}</p>
+                            <h4>- {opinion.nombre}</h4>
+                            <p><small>{opinion.fecha} {opinion.hora}</small></p>
+                        </div>
+                    ))}
+                </div>
+                <div className="pagination">
+                    <button onClick={() => handlePageChange(paginaActual - 1)} disabled={paginaActual === 1}>Anterior</button>
+                    <span>Página {paginaActual} de {totalPaginas}</span>
+                    <button onClick={() => handlePageChange(paginaActual + 1)} disabled={paginaActual === totalPaginas}>Siguiente</button>
+                </div>
+            </div>
+              {/* Modal para agregar opinión */}
+              {modalVisible && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <form onSubmit={handleSubmit}>
+                            <h2 className="form-title">Agregar Opinión</h2>
+                            <div className="form-group">
+                                <label htmlFor="nombre">Nombre:</label>
+                                <input
+                                    type="text"
+                                    id="nombre"
+                                    value={nombre}
+                                    onChange={handleNombreChange}
+                                    required
+                                />
                             </div>
-                        ))}
+                            <div className="form-group">
+                                <label htmlFor="texto">Opinión:</label>
+                                <textarea
+                                    id="texto"
+                                    value={texto}
+                                    onChange={handleTextoChange}
+                                    maxLength={maxCaracteres}
+                                    required
+                                />
+                                <div className="char-counter">
+                                    {maxCaracteres - texto.length} caracteres restantes
+                                </div>
+                            </div>
+                            <button type="submit">Enviar Opinión</button>
+                            {mensaje && <p>{mensaje}</p>}
+                            <br />
+                            <button type="button" onClick={() => setModalVisible(false)} className="close-modal">Cerrar</button>
+                        </form>
                     </div>
                 </div>
+            )}
             </section>
                 {/* Círculo flotante con WhatsApp */}
                 <a href="https://wa.me/1234567890" className="whatsapp-circle" target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon={faWhatsapp} />
                 </a>
-                {/* Modal para agregar opinión */}
-{modalVisible && (
-    <div className="modal-overlay">
-        <div className="modal-content">
-            <form onSubmit={handleSubmit}>
-                <h2 className="form-title">Agregar Opinión</h2> {/* Título dentro del formulario */}
-                <div className="form-group">
-                    <label htmlFor="nombre">Nombre:</label>
-                    <input
-                        type="text"
-                        id="nombre"
-                        value={nombre}
-                        onChange={(e) => setNombre(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="texto">Opinión:</label>
-                    <textarea
-                        id="texto"
-                        value={texto}
-                        onChange={(e) => setTexto(e.target.value)}
-                        maxLength={maxCaracteres}
-                        required
-                    />
-                    <div className="char-counter">
-                        {maxCaracteres - texto.length} caracteres restantes
-                    </div>
-                </div>
-                <button type="submit">Enviar Opinión</button>
-                {mensaje && <p>{mensaje}</p>}
-                <br />
-                <button type="button" onClick={() => setModalVisible(false)} className="close-modal">Cerrar</button>
-            </form>
-        </div>
-    </div>
-)}
+                 
                 {/* Modal para Login */}
                 {loginModalVisible && (
                     <div className="modal-overlay">

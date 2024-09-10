@@ -34,7 +34,7 @@
 }
 
 .emp {
-    color: #ffffff;
+    color: #000000;
 }
 
 .equipo-container {
@@ -102,7 +102,7 @@
 }
 
 .buscar-btn {
-    background-color: #007bff;
+    background-color: #03ac4f;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -139,4 +139,8 @@
     font-size: 16px;
     cursor: pointer;
     z-index: 4;
+}
+
+.buscar-cliente-titulo {
+    color: black; /* Cambia el color del texto a negro */
 }

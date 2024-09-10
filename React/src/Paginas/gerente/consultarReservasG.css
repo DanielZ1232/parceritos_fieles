@@ -35,21 +35,14 @@
     padding: 12px;
   }
   
-  .consultarReservasG-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
+  .consultarReservasG-icon {
+    font-size: 20px;
+    color: #28a745; /* Color verde para el ícono */
     cursor: pointer;
+    transition: color 0.3s ease;
   }
   
-  .consultarReservasG-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .consultarReservasG-button:hover:not(:disabled) {
-    background-color: #0056b3;
+  .consultarReservasG-icon:hover {
+    color: #218838; /* Color verde más oscuro al pasar el ratón */
   }
   

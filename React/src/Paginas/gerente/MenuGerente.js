@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2'; // Importa SweetAlert2
 import './MenuGerente.css'; 
 import NavBarGerente from "../../components/navBarGerente";
 import Footer from '../../components/footer';
@@ -54,8 +55,26 @@ const MenuGerente = () => {
                 setClienteEncontrado(null);
                 setDocumentoBusqueda('');
                 setShowClienteSearch(false);
+
+                // Mostrar la notificación de éxito
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Empleado agregado exitosamente",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             })
-            .catch(error => console.error('Error changing role:', error));
+            .catch(error => {
+                console.error('Error changing role:', error);
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Error al agregar empleado",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            });
         } else {
             console.error('Cliente no encontrado');
         }
@@ -90,7 +109,7 @@ const MenuGerente = () => {
                 {showClienteSearch && (
                     <div className="cliente-search-modal">
                         <div className="close-modal-icon" onClick={handleCloseModal}>×</div>
-                        <h3>Buscar Cliente para Agregar</h3>
+                        <h3 className="buscar-cliente-titulo">Buscar Cliente para Agregar</h3>
                         <input
                             type="text"
                             placeholder="Número de Documento"

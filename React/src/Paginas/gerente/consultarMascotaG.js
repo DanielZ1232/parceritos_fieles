@@ -104,10 +104,10 @@ const ConsultarMascotG = () => {
                     <td className="consultarMascotG-td">{mascota.Esterilizado ? 'Sí' : 'No'}</td>
                     <td className="consultarMascotG-td">
                       <button
-                        className="consultarMascotG-button"
+                        className="consultarMascotG-icon-button"
                         onClick={() => verPerfil(mascota.id)}
                       >
-                        Perfil
+                        <i className="fas fa-user"></i>
                       </button>
                     </td>
                   </tr>

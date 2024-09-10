@@ -5,6 +5,7 @@ import Footer from '../../components/footer'; // Asegúrate de que la ruta es co
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import './PerfilMascota.css'; // Asegúrate de que esta ruta es correcta
+import Swal from 'sweetalert2'; // Importa Swal
 
 // Importa la imagen
 import PerroImg from '../../assets/Imagenes/perro2.jpeg'; // Ajusta la ruta si es necesario
@@ -34,19 +35,50 @@ const PerfilMascota = () => {
 
   // Función para eliminar la mascota
   const handleEliminar = async () => {
-    try {
-      const response = await fetch(`http://localhost:3002/Mascotas/${id}`, {
-        method: 'DELETE', // Método DELETE para eliminar el recurso
-      });
+    // Muestra el diálogo de confirmación
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminarlo!",
+      cancelButtonText: "Cancelar"
+    });
 
-      if (response.ok) {
-        alert('Mascota eliminada con éxito');
-        navigate('/consultar-mascota'); // Redirige a la página ConsultarMascotas después de eliminar
-      } else {
-        console.error('Error al eliminar la mascota:', response.status);
+    // Si el usuario confirma la eliminación
+    if (result.isConfirmed) {
+      try {
+        const response = await fetch(`http://localhost:3002/Mascotas/${id}`, {
+          method: 'DELETE', // Método DELETE para eliminar el recurso
+        });
+
+        if (response.ok) {
+          await Swal.fire({
+            title: "Eliminado!",
+            text: "Tu archivo ha sido eliminado.",
+            icon: "success"
+          });
+          navigate('/consultar-mascota'); // Redirige a la página ConsultarMascotas después de eliminar
+        } else {
+          console.error('Error al eliminar la mascota:', response.status);
+          await Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo eliminar la mascota. Inténtelo de nuevo.',
+            confirmButtonText: 'Aceptar'
+          });
+        }
+      } catch (error) {
+        console.error('Error de red:', error);
+        await Swal.fire({
+          icon: 'error',
+          title: 'Error de red',
+          text: 'No se pudo eliminar la mascota. Inténtelo de nuevo más tarde.',
+          confirmButtonText: 'Aceptar'
+        });
       }
-    } catch (error) {
-      console.error('Error de red:', error);
     }
   };
 

@@ -14,12 +14,14 @@ const RegistroMascota = () => {
     peso: '',
     edad: '',
     sexo: '',
-    esterilizado: ''
+    esterilizado: '' // Inicializa con una cadena vacía
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     
+    console.log(`Campo: ${name}, Valor: ${value}`); // Depuración
+
     // Formatear el valor basado en el nombre del campo
     let formattedValue = value;
     if (name !== 'edad') {
@@ -60,7 +62,7 @@ const RegistroMascota = () => {
           peso: '',
           edad: '',
           sexo: '',
-          esterilizado: ''
+          esterilizado: '' // Restablece a cadena vacía
         });
       } else {
         console.error('Error al registrar la mascota:', response.status);

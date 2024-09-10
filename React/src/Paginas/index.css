@@ -9,6 +9,7 @@ body {
     padding: 0;
     background-color: #ffffff;
     color: #333;
+    font-size: large;
 }
 
 header {
@@ -231,6 +232,10 @@ nav img {
     margin: 0 auto;
     padding: 1rem;
     text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espaciado entre opiniones */
+    justify-content: center; /* Centra las opiniones en la página */
 }
 
 .opinion {
@@ -238,13 +243,44 @@ nav img {
     background-color: #ffffff;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    min-height: 200px; /* Ajusta la altura mínima según tus necesidades */
+    width: 100%; /* Ocupa el 100% del contenedor flex */
+    max-width: 360px; /* Ancho máximo para cada opinión, ajusta según el diseño */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
 }
 
 .opinion h4 {
     margin-top: 10px;
     font-size: 1.2em;
     color: #666;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    background-color: #058d05;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    margin: 0 10px;
+    align-self: center;
 }
 
 .contact {

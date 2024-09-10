@@ -61,93 +61,95 @@ const ActualizarMisDatosG = () => {
         <div className="form-section-actualizar-datos">
           <h2>Actualizar Datos</h2>
           <form onSubmit={handleSubmit}>
-            <div className="form-group-actualizar-datos">
-              <label htmlFor="nombre">Nombre:</label>
-              <input
-                type="text"
-                id="nombre"
-                name="nombre"
-                defaultValue={usuario.Nombre}
-                disabled
-              />
-            </div>
-            <div className="form-group-actualizar-datos">
-              <label htmlFor="apellido">Apellido:</label>
-              <input
-                type="text"
-                id="apellido"
-                name="apellido"
-                defaultValue={usuario.Apellido}
-                disabled
-              />
-            </div>
-            <div className="form-group-actualizar-datos">
-              <label htmlFor="correo">Correo:</label>
-              <input
-                type="email"
-                id="correo"
-                name="correo"
-                defaultValue={usuario.Correo}
-                required
-              />
-            </div>
-            <div className="form-group-actualizar-datos password-container-actualizar-datos">
-              <label htmlFor="contraseña">Contraseña:</label>
-              <div className="password-container-actualizar-datos">
+            <div className="form-container-actualizar-datos">
+              <div className="form-group-actualizar-datos">
+                <label htmlFor="nombre">Nombre:</label>
                 <input
-                  type={showPassword ? 'text' : 'password'}
-                  id="contraseña"
-                  name="contraseña"
-                  defaultValue={usuario.Contraseña}
+                  type="text"
+                  id="nombre"
+                  name="nombre"
+                  defaultValue={usuario.Nombre}
+                  disabled
+                />
+              </div>
+              <div className="form-group-actualizar-datos">
+                <label htmlFor="apellido">Apellido:</label>
+                <input
+                  type="text"
+                  id="apellido"
+                  name="apellido"
+                  defaultValue={usuario.Apellido}
+                  disabled
+                />
+              </div>
+              <div className="form-group-actualizar-datos">
+                <label htmlFor="correo">Correo:</label>
+                <input
+                  type="email"
+                  id="correo"
+                  name="correo"
+                  defaultValue={usuario.Correo}
                   required
                 />
-                <span
-                  className="eye-icon-actualizar-datos"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </span>
               </div>
-            </div>
-            <div className="form-group-actualizar-datos">
-              <label htmlFor="celular">Celular:</label>
-              <input
-                type="text"
-                id="celular"
-                name="celular"
-                defaultValue={usuario.Celular}
-                required
-              />
-            </div>
-            <div className="form-group-actualizar-datos">
-              <label htmlFor="direccion">Dirección:</label>
-              <input
-                type="text"
-                id="direccion"
-                name="direccion"
-                defaultValue={usuario.Direccion}
-                required
-              />
-            </div>
-            <div className="form-group-actualizar-datos">
-              <label htmlFor="tipo_documento">Tipo documento:</label>
-              <input
-                type="text"
-                id="tipo_documento"
-                name="tipo_documento"
-                defaultValue={usuario.TipoDocumento}
-                disabled
-              />
-            </div>
-            <div className="form-group-actualizar-datos">
-              <label htmlFor="numero_documento">Número Documento:</label>
-              <input
-                type="text"
-                id="numero_documento"
-                name="numero_documento"
-                defaultValue={usuario.NumeroDocumento}
-                disabled
-              />
+              <div className="form-group-actualizar-datos password-container-actualizar-datos">
+                <label htmlFor="contraseña">Contraseña:</label>
+                <div className="password-container-actualizar-datos">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    id="contraseña"
+                    name="contraseña"
+                    defaultValue={usuario.Contraseña}
+                    required
+                  />
+                  <span
+                    className="eye-icon-actualizar-datos"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+                </div>
+              </div>
+              <div className="form-group-actualizar-datos">
+                <label htmlFor="celular">Celular:</label>
+                <input
+                  type="text"
+                  id="celular"
+                  name="celular"
+                  defaultValue={usuario.Celular}
+                  required
+                />
+              </div>
+              <div className="form-group-actualizar-datos">
+                <label htmlFor="direccion">Dirección:</label>
+                <input
+                  type="text"
+                  id="direccion"
+                  name="direccion"
+                  defaultValue={usuario.Direccion}
+                  required
+                />
+              </div>
+              <div className="form-group-actualizar-datos">
+                <label htmlFor="tipo_documento">Tipo documento:</label>
+                <input
+                  type="text"
+                  id="tipo_documento"
+                  name="tipo_documento"
+                  defaultValue={usuario.TipoDocumento}
+                  disabled
+                />
+              </div>
+              <div className="form-group-actualizar-datos">
+                <label htmlFor="numero_documento">Número Documento:</label>
+                <input
+                  type="text"
+                  id="numero_documento"
+                  name="numero_documento"
+                  defaultValue={usuario.NumeroDocumento}
+                  disabled
+                />
+              </div>
             </div>
             <center>
               <button type="submit" className="button-actualizar-datos">Guardar</button>

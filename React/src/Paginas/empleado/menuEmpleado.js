@@ -107,6 +107,10 @@ const menuEmpleado = () => {
     socialMediaLink: {
       color: '#fff',
     },
+    // Estilos adicionales para el texto específico
+    textBlack: {
+      color: 'black',
+    },
   };
 
   return (
@@ -126,8 +130,13 @@ const menuEmpleado = () => {
           <div className="team-members" style={styles.teamMembers}>
             <div className="team-member" style={styles.teamMember}>
               <img src={Perro2} alt="Team Member Profile Pic" style={styles.teamMemberImg} />
-              <h3>Rocky</h3>
+              <h3 style={styles.textBlack}>Rocky</h3> {/* Aplica el color negro */}
             </div>
+          </div>
+          <div style={styles.textBlack}> {/* Agrega el estilo de texto negro */}
+            <p>Daniel<br />Empleado</p>
+            <p>Miguel<br />Empleado</p>
+            <button style={styles.addMember}>Buscar Cliente para Agregar</button>
           </div>
         </section>
       </div>

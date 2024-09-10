@@ -24,28 +24,15 @@
     padding: 12px;
   }
   
-  .consultarQuejasG-button {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
+  .consultarQuejasG-icon {
+    font-size: 20px;
+    color: #23d86e; /* Color azul para el ícono */
     cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    transition: color 0.3s ease;
   }
   
-  .consultarQuejasG-button:hover {
-    background-color: #218838;
-  }
-  
-  .consultarQuejasG-button-primary {
-    background-color: #007bff;
-  }
-  
-  .consultarQuejasG-button-primary:hover {
-    background-color: #0056b3;
+  .consultarQuejasG-icon:hover {
+    color: #0a6318; /* Color azul más oscuro al pasar el ratón */
   }
   
   .consultarQuejasG-textarea {

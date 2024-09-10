@@ -37,7 +37,7 @@ const VerPerfilMascotaG = () => {
       <div className="verPerfilMascotaG-container">
         <center>
           <div className="verPerfilMascotaG-userImg">
-            <h1>Perfil de la Mascota</h1>
+            <h1 className="verPerfilMascotaG-title">Perfil de la Mascota</h1>
             <img src={Imagen} alt="img" className="verPerfilMascotaG-img" />
           </div>
         </center>
