@@ -4,7 +4,7 @@
       "Nombre": "Daniel",
       "Apellido": "Zuñiga",
       "Correo": "dzuniga873@gmail.com",
-      "Contraseña": "123456",
+      "Contraseña": "1234567",
       "Celular": "3166617088",
       "Direccion": "Calle 158 #96 a - 77",
       "TipoDocumento": "CC",
@@ -71,6 +71,18 @@
       "NumeroDocumento": "1025647583",
       "Contraseña": "1234567890",
       "Rol": "Cliente"
+    },
+    {
+      "id": "1726030337285",
+      "Nombre": "Pepe",
+      "Apellido": "Castro",
+      "Correo": "castro123@gmail.com",
+      "Celular": "32345867",
+      "Direccion": "cra 104 #140-31",
+      "TipoDocumento": "CC",
+      "NumeroDocumento": "1025647532",
+      "Contraseña": "Castro1#",
+      "Rol": "Cliente"
     }
   ],
   "Mascotas": [
@@ -104,7 +116,7 @@
       "mascota": "pan",
       "celular": "3133186012",
       "correo": "lugobecerra9@gmail.com",
-      "estado": "Por Confirmar",
+      "estado": "Confirmada",
       "usuarioId": "1724787393052"
     },
     {

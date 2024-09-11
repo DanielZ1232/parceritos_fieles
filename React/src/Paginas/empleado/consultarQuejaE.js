@@ -3,6 +3,7 @@ import NavBar from '../../components/navBarEmpleado';
 import Footer from '../../components/footer';
 import styled from 'styled-components';
 import axios from 'axios';
+import Swal from 'sweetalert2'; // Importa SweetAlert2
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 
@@ -97,6 +98,19 @@ const ConsultarQuejaE = () => {
     setMostrarQueja(mostrarQueja === index ? null : index);
   };
 
+  const handleEnviarRespuesta = () => {
+    // Aquí puedes agregar la lógica para enviar la respuesta a la API si es necesario
+
+    // Mostrar la alerta
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Tu respuesta ha sido enviada',
+      showConfirmButton: false,
+      timer: 1500
+    });
+  };
+
   return (
     <div>
       <NavBar />
@@ -135,7 +149,7 @@ const ConsultarQuejaE = () => {
                           <p>{queja.texto}</p>
                           <ResponseSection>
                             <TextArea placeholder="Escribe tu respuesta aquí..." />
-                            <Button>Enviar Respuesta</Button>
+                            <Button onClick={handleEnviarRespuesta}>Enviar Respuesta</Button>
                           </ResponseSection>
                         </QuejaContent>
                       </Td>

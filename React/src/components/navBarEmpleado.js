@@ -13,9 +13,10 @@ const Header = styled.header`
 `;
 
 const LogoImg = styled.img`
-  width: 50px;
+  width: 80px;
   height: auto;
   margin-top: 2px;
+  border-radius: 10px;
 `;
 
 const Nav = styled.div`
@@ -86,7 +87,7 @@ const NavBarEmpleado = () => {
     <div>
       <Header>
         <div className="logo">
-          <Link href="/">
+          <Link href="/menuEmpleado">
             <LogoImg src={Logo} alt="Logo Parceritos Fieles" />
           </Link>
         </div>

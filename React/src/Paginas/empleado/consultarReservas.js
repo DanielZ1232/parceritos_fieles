@@ -3,6 +3,7 @@ import NavBarEmpleado from '../../components/navBarEmpleado';
 import Footer from '../../components/footer';
 import styled from 'styled-components';
 import axios from 'axios';
+import Swal from 'sweetalert2'; // Asegúrate de que SweetAlert2 esté importado
 import { MdCheckCircle } from 'react-icons/md'; // Importa el icono
 
 const Container = styled.div`
@@ -81,13 +82,50 @@ const ConsultarReservas = () => {
     const nuevaReserva = { ...reserva, estado: 'Confirmada' };
 
     try {
-      await axios.put(`http://localhost:3002/Reservas/${reserva.id}`, nuevaReserva);
-      const nuevasReservas = reservas.map((reserva, i) =>
-        i === index ? nuevaReserva : reserva
-      );
-      setReservas(nuevasReservas);
+      // Mostrar la alerta de confirmación
+      const result = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esto.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, confirmar',
+        cancelButtonText: 'No, cancelar',
+        reverseButtons: true,
+        customClass: {
+          confirmButton: 'btn-confirmar',
+          cancelButton: 'btn-cancelar',
+          actions: 'actions' // Clase para el contenedor de los botones
+        },
+        buttonsStyling: false
+      });
+
+      if (result.isConfirmed) {
+        // Si el usuario confirma, actualiza el estado de la reserva
+        await axios.put(`http://localhost:3002/Reservas/${reserva.id}`, nuevaReserva);
+        const nuevasReservas = reservas.map((reserva, i) =>
+          i === index ? nuevaReserva : reserva
+        );
+        setReservas(nuevasReservas);
+        Swal.fire({
+          title: 'Confirmada!',
+          text: 'La reserva ha sido confirmada.',
+          icon: 'success'
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Si el usuario cancela, muestra un mensaje de cancelación
+        Swal.fire({
+          title: 'Cancelada',
+          text: 'La reserva no ha sido confirmada.',
+          icon: 'error'
+        });
+      }
     } catch (error) {
       console.error('Error al confirmar la reserva:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Hubo un problema al confirmar la reserva.',
+        icon: 'error'
+      });
     }
   };
 
@@ -140,11 +178,7 @@ const ConsultarReservas = () => {
                       disabled={reserva.estado !== 'Por Confirmar'}
                     >
                       <Icon>
-                        {reserva.estado === 'Confirmada' ? (
-                          <MdCheckCircle />
-                        ) : (
-                          <MdCheckCircle />
-                        )}
+                        <MdCheckCircle />
                       </Icon>
                     </Button>
                   </Td>
@@ -155,6 +189,29 @@ const ConsultarReservas = () => {
         </TableContainer>
       </Container>
       <Footer />
+      <style>
+        {`
+          /* CSS adicional para los botones de SweetAlert2 */
+          .swal2-confirm.btn-confirmar {
+            background-color: #28a745; /* Verde para el botón de confirmar */
+            border-color: #28a745;
+          }
+
+          .swal2-cancel.btn-cancelar {
+            background-color: #dc3545; /* Rojo para el botón de cancelar */
+            border-color: #dc3545;
+          }
+
+          .swal2-actions {
+            margin: 0; /* Elimina el margen por defecto */
+          }
+
+          .swal2-actions .swal2-confirm,
+          .swal2-actions .swal2-cancel {
+            margin: 0 10px; /* Agrega margen a los botones */
+          }
+        `}
+      </style>
     </div>
   );
 };
