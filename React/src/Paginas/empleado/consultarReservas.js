@@ -3,6 +3,7 @@ import NavBarEmpleado from '../../components/navBarEmpleado';
 import Footer from '../../components/footer';
 import styled from 'styled-components';
 import axios from 'axios';
+import { MdCheckCircle } from 'react-icons/md'; // Importa el icono
 
 const Container = styled.div`
   max-width: 90%;
@@ -42,16 +43,20 @@ const Td = styled.td`
 `;
 
 const Button = styled.button`
-  background-color: ${(props) => (props.disabled ? '#ccc' : '#007bff')};
+  background-color: ${(props) => (props.disabled ? '#ccc' : '#1cab1f')};
   color: #fff;
   border: none;
-  padding: 8px 16px;
+  padding: 8px;
   border-radius: 4px;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   
   &:hover {
-    background-color: ${(props) => (props.disabled ? '#ccc' : '#0056b3')};
+    background-color: ${(props) => (props.disabled ? '#ccc' : '#156d27')};
   }
+`;
+
+const Icon = styled.div`
+  font-size: 20px;
 `;
 
 const ConsultarReservas = () => {
@@ -134,7 +139,13 @@ const ConsultarReservas = () => {
                       onClick={() => confirmarReserva(index)}
                       disabled={reserva.estado !== 'Por Confirmar'}
                     >
-                      {reserva.estado === 'confirmada' ? 'Confirmado' : 'Confirmar'}
+                      <Icon>
+                        {reserva.estado === 'Confirmada' ? (
+                          <MdCheckCircle />
+                        ) : (
+                          <MdCheckCircle />
+                        )}
+                      </Icon>
                     </Button>
                   </Td>
                 </tr>

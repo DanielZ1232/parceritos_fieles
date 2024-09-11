@@ -3,6 +3,8 @@ import NavBar from '../../components/navBarEmpleado';
 import Footer from '../../components/footer';
 import styled from 'styled-components';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
   max-width: 90%;
@@ -31,7 +33,7 @@ const Td = styled.td`
 `;
 
 const Button = styled.button`
-  background-color: ${(props) => (props.primary ? '#007bff' : '#28a745')};
+  background-color: ${(props) => (props.primary ? '#24ad60' : '#0d793c')};
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -42,7 +44,7 @@ const Button = styled.button`
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: ${(props) => (props.primary ? '#0056b3' : '#218838')};
+    background-color: ${(props) => (props.primary ? '#0d793c' : '#218838')};
   }
 `;
 
@@ -122,7 +124,7 @@ const ConsultarQuejaE = () => {
                     <Td>{queja.correo}</Td>
                     <Td>
                       <Button primary onClick={() => toggleQueja(index)}>
-                        {mostrarQueja === index ? 'Ocultar' : 'Ver'}
+                        <FontAwesomeIcon icon={faEye} />
                       </Button>
                     </Td>
                   </tr>

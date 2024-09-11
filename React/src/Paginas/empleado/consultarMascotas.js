@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavBarEmpleado from '../../components/navBarEmpleado';
 import Footer from '../../components/footer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons'; // Importa el icono de perfil
 
 const ConsultarMascotas = () => {
   const [mascotas, setMascotas] = useState([]);
@@ -100,16 +102,22 @@ const ConsultarMascotas = () => {
       borderBottom: '1px solid #ddd',
     },
     button: {
-      backgroundColor: '#4CAF50',
-      color: 'white',
-      padding: '10px 20px',
+      backgroundColor: 'transparent', // Fondo transparente por defecto
       border: 'none',
       borderRadius: '5px',
       cursor: 'pointer',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: '0', // Elimina el padding para que solo se vea el icono
     },
     buttonHover: {
-      backgroundColor: '#3e8e41',
+      backgroundColor: '#4CAF50', // Fondo verde cuando se pasa el ratón
     },
+    icon: {
+      fontSize: '30px', // Tamaño del icono
+      color: '#000', // Color del icono
+    }
   };
 
   return (
@@ -177,9 +185,11 @@ const ConsultarMascotas = () => {
                     <td style={styles.td}>
                       <button
                         style={styles.button}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = styles.buttonHover.backgroundColor}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = styles.button.backgroundColor}
                         onClick={() => verPerfil(mascota.id)}
                       >
-                        Perfil
+                        <FontAwesomeIcon icon={faUser} style={styles.icon} />
                       </button>
                     </td>
                   </tr>

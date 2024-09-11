@@ -133,11 +133,6 @@ const menuEmpleado = () => {
               <h3 style={styles.textBlack}>Rocky</h3> {/* Aplica el color negro */}
             </div>
           </div>
-          <div style={styles.textBlack}> {/* Agrega el estilo de texto negro */}
-            <p>Daniel<br />Empleado</p>
-            <p>Miguel<br />Empleado</p>
-            <button style={styles.addMember}>Buscar Cliente para Agregar</button>
-          </div>
         </section>
       </div>
       <Footer />

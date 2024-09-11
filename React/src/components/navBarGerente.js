@@ -1,15 +1,16 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate desde react-router-dom
 import Logo from '../assets/Imagenes/logo.png';
 import './navbarGerente.css';
 import { Link } from 'react-router-dom';
 
 const NavBarGerente = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Inicializa useNavigate
 
   const handleLogout = () => {
-    localStorage.removeItem('usuarioId');
-    navigate('/');
+    console.log('Cerrando sesión...'); // Debug: Verifica si la función se llama
+    localStorage.removeItem('usuarioId'); // Elimina el ítem del localStorage
+    navigate('/'); // Redirige a la página de inicio
   };
 
   return (
@@ -46,7 +47,7 @@ const NavBarGerente = () => {
             <Link to="#" className="navBarGerente-link">Cuenta</Link>
             <div className="navBarGerente-dropdownContent">
               <Link to="/miPerfilG" className="navBarGerente-dropdownContentLink">Mi Perfil</Link>
-              <Link to="#" onClick={handleLogout} className="navBarGerente-dropdownContentLink">Cerrar sesión</Link>
+              <Link to="/" onClick={handleLogout} className="navBarGerente-dropdownContentLink">Cerrar sesión</Link>
             </div>
           </div>
         </div>
