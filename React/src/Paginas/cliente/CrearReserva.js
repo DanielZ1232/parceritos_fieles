@@ -24,12 +24,18 @@ const CrearReserva = () => {
 
   useEffect(() => {
     const fetchMascotas = async () => {
+      if (!userId) return; // Asegurarse de que userId esté disponible
       try {
         const response = await axios.get('http://localhost:3002/Mascotas');
         const mascotasUsuario = response.data.filter(mascota => mascota.usuarioId === userId);
         setMascotas(mascotasUsuario);
       } catch (error) {
         console.error('Error al obtener las mascotas:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error al obtener las mascotas. Inténtalo de nuevo más tarde.',
+        });
       }
     };
 
@@ -43,6 +49,11 @@ const CrearReserva = () => {
         setUsuarios(response.data);
       } catch (error) {
         console.error('Error al obtener los usuarios:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error al obtener los usuarios. Inténtalo de nuevo más tarde.',
+        });
       }
     };
 

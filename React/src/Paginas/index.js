@@ -180,7 +180,7 @@ function Index() {
 
     const handleRegisterSubmit = async (e) => {
         e.preventDefault();
-    
+
         if (registerContraseña !== registerConfirmarContraseña) {
             Swal.fire({
                 title: 'Error',
@@ -191,6 +191,7 @@ function Index() {
             });
             return;
         }
+
     
         if (!validatePassword(registerContraseña)) {
             Swal.fire({
@@ -203,11 +204,13 @@ function Index() {
             return;
         }
     
+
+
+
         try {
             const response = await axios.get('http://localhost:3002/Usuarios');
             const usuarios = response.data;
             const usuarioExistente = usuarios.find(usuario => usuario.Correo === registerCorreo);
-    
             if (usuarioExistente) {
                 Swal.fire({
                     title: 'Error',
@@ -218,7 +221,6 @@ function Index() {
                 });
                 return;
             }
-    
             const nuevoUsuario = {
                 id: Date.now().toString(),
                 Nombre: registerNombre,
@@ -231,9 +233,7 @@ function Index() {
                 Contraseña: registerContraseña,
                 Rol: 'Cliente',
             };
-    
-            await axios.post('http://localhost:3002/Usuarios/', nuevoUsuario);
-    
+
             Swal.fire({
                 title: 'Registrado con éxito',
                 text: 'Usuario registrado con éxito',
@@ -474,12 +474,16 @@ function Index() {
                                             required
                                         />
                                     </div>
+
                                     <button type="submit" className="button">Ingresar</button>
                                     <br></br>
+
+
                                     <div className="form-links">
                                         <Link to="#">¿Olvidaste tu Contraseña?</Link>
                                         <Link to="#" onClick={handleRegisterClick}>¿No tienes cuenta? Regístrate!</Link>
                                     </div>
+                                    <button type="submit" className="button">Ingresar</button>
                                 </form>
                                 <button onClick={() => setLoginModalVisible(false)} className="close-modal">Cerrar</button>
                             </div>

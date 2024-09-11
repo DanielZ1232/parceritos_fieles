@@ -37,6 +37,9 @@ const VerPerfilMascota = () => {
         <center>
           <div style={styles.userImg}>
             <h1 style={styles.title}>Perfil de la Mascota</h1>
+
+            <h1>Perfil de la Mascota</h1>
+
             <img src={Imagen} alt="img" style={styles.img} />
           </div>
         </center>
@@ -116,6 +119,8 @@ const styles = {
   },
   img: {
     width: '26%',
+  img: {
+    width: '30%',
     height: 'auto',
     borderRadius: '8px',
     border: '4px solid #000',
@@ -125,6 +130,11 @@ const styles = {
     gridTemplateColumns: 'repeat(2, 1fr)', // 2 columnas
     gap: '15px',
     justifyContent: 'center',
+
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '15px',
   },
   infoItem: {
     display: 'flex',
@@ -135,6 +145,13 @@ const styles = {
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     width: '100%',
     boxSizing: 'border-box',
+
+    padding: '10px 20px',
+    borderRadius: '8px',
+    backgroundColor: '#ffffff',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    width: '80%',
+    maxWidth: '500px',
   },
   icon: {
     marginRight: '15px',
@@ -155,6 +172,7 @@ const styles = {
     textAlign: 'center',
     marginTop: '20px',
   },
+     }
 };
 
 export default VerPerfilMascota;

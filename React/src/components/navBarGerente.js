@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate desde react-router-dom
+import Swal from 'sweetalert2'; // Importa SweetAlert2
 import Logo from '../assets/Imagenes/logo.png';
 import './navbarGerente.css';
 import { Link } from 'react-router-dom';
@@ -8,9 +9,19 @@ const NavBarGerente = () => {
   const navigate = useNavigate(); // Inicializa useNavigate
 
   const handleLogout = () => {
-    console.log('Cerrando sesión...'); // Debug: Verifica si la función se llama
-    localStorage.removeItem('usuarioId'); // Elimina el ítem del localStorage
-    navigate('/'); // Redirige a la página de inicio
+    // Muestra la alerta de éxito antes de redirigir
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Sesión cerrada con éxito',
+      showConfirmButton: false,
+      timer: 1500
+    }).then(() => {
+      // Limpia el almacenamiento local
+      localStorage.removeItem('usuarioId');
+      // Redirige a la página de inicio después de mostrar la alerta
+      navigate('/');
+    });
   };
 
   return (

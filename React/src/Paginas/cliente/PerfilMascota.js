@@ -98,29 +98,29 @@ const PerfilMascota = () => {
               <div className="info-ite">
                 <div className="info-item">
                   <i className="fa-solid fa-paw" />
-                  <span>Nombre<br />{mascota.Nombre}</span>
+                  <span>Nombre<br />{mascota.nombre}</span>
                 </div>
                 <div className="info-item">
                   <i className="fa-solid fa-paw" />
-                  <span>Edad<br />{mascota.Edad} años</span>
+                  <span>Edad<br />{mascota.edad} años</span>
                 </div>
                 <div className="info-item">
                   <i className="fa-solid fa-paw" />
-                  <span>Peso<br />{mascota.Peso}</span>
+                  <span>Peso<br />{mascota.peso}</span>
                 </div>
               </div>
               <div className="info-ite2">
                 <div className="info-item">
                   <i className="fa-solid fa-paw" />
-                  <span>Raza<br />{mascota.Raza}</span>
+                  <span>Raza<br />{mascota.raza}</span>
                 </div>
                 <div className="info-item">
                   <i className="fa-solid fa-paw" />
-                  <span>Enfermedades<br />{mascota.Enfermedades}</span>
+                  <span>Enfermedades<br />{mascota.enfermedades}</span>
                 </div>
                 <div className="info-item-direc">
                   <i className="fa-solid fa-paw" />
-                  <span>Esterilizado<br />{mascota.Esterilizado === 'si' ? 'Sí' : 'No'}</span>
+                  <span>Esterilizado<br />{mascota.esterilizado === 'si' ? 'Sí' : 'No'}</span>
                 </div>
               </div>
             </div>

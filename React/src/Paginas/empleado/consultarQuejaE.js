@@ -3,7 +3,8 @@ import NavBar from '../../components/navBarEmpleado';
 import Footer from '../../components/footer';
 import styled from 'styled-components';
 import axios from 'axios';
-import Swal from 'sweetalert2'; // Importa SweetAlert2
+import Swal from 'sweetalert2';
+import emailjs from 'emailjs-com';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 
@@ -47,6 +48,11 @@ const Button = styled.button`
   &:hover {
     background-color: ${(props) => (props.primary ? '#0d793c' : '#218838')};
   }
+
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
 `;
 
 const TextArea = styled.textarea`
@@ -56,7 +62,7 @@ const TextArea = styled.textarea`
   border-radius: 4px;
   border: 1px solid #ddd;
   font-size: 16px;
-  resize: vertical; /* Allows vertical resizing */
+  resize: vertical;
   margin-bottom: 10px;
   transition: border-color 0.3s ease;
 
@@ -77,15 +83,58 @@ const ResponseSection = styled.div`
   margin-top: 20px;
 `;
 
+const FilterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+  }
+
+  input, select {
+    margin-top: 5px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+  }
+`;
+
+const Icon = styled.i`
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 10px;
+  color: #007bff;
+
+  &:hover {
+    color: #0056b3;
+  }
+`;
+
 const ConsultarQuejaE = () => {
   const [quejas, setQuejas] = useState([]);
+  const [filteredQuejas, setFilteredQuejas] = useState([]);
   const [mostrarQueja, setMostrarQueja] = useState(null);
+  const [respuesta, setRespuesta] = useState('');
+  const [fechaFiltro, setFechaFiltro] = useState('');
+  const [respondidaFiltro, setRespondidaFiltro] = useState('');
 
   useEffect(() => {
     const fetchQuejas = async () => {
       try {
-        const response = await axios.get('http://localhost:3002/Quejas/'); // Cambia esta URL por la de tu API
+        const response = await axios.get('http://localhost:3002/Quejas/');
         setQuejas(response.data);
+        setFilteredQuejas(response.data);
       } catch (error) {
         console.error('Error al obtener las quejas:', error);
       }
@@ -94,21 +143,66 @@ const ConsultarQuejaE = () => {
     fetchQuejas();
   }, []);
 
+  useEffect(() => {
+    const aplicarFiltros = () => {
+      let resultado = quejas;
+
+      if (fechaFiltro) {
+        resultado = resultado.filter(queja => queja.fecha.includes(fechaFiltro));
+      }
+
+      if (respondidaFiltro) {
+        resultado = resultado.filter(queja => (respondidaFiltro === 'respondida' ? queja.Respuesta : !queja.Respuesta));
+      }
+
+      setFilteredQuejas(resultado);
+    };
+
+    aplicarFiltros();
+  }, [fechaFiltro, respondidaFiltro, quejas]);
+
   const toggleQueja = (index) => {
     setMostrarQueja(mostrarQueja === index ? null : index);
   };
 
-  const handleEnviarRespuesta = () => {
-    // Aquí puedes agregar la lógica para enviar la respuesta a la API si es necesario
+  const handleEnviarRespuesta = async (queja) => {
+    if (!respuesta) return;
 
-    // Mostrar la alerta
-    Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: 'Tu respuesta ha sido enviada',
-      showConfirmButton: false,
-      timer: 1500
-    });
+    try {
+      const updatedQueja = { ...queja, Respuesta: respuesta };
+      await axios.put(`http://localhost:3002/Quejas/${queja.id}`, updatedQueja);
+
+      const emailParams = {
+        to_name: queja.nombre,
+        message: respuesta,
+        to_email: queja.correo,
+      };
+
+      await emailjs.send(
+        'service_ry1g0os',
+        'template_ldrsz2k',
+        emailParams,
+        'I20QJHbvYjkT3UX_N'
+      );
+
+      setQuejas((prevQuejas) =>
+        prevQuejas.map((q) =>
+          q.id === queja.id ? { ...q, Respuesta: respuesta } : q
+        )
+      );
+
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Tu respuesta ha sido enviada',
+        showConfirmButton: false,
+        timer: 1500
+      });
+
+      setRespuesta('');
+    } catch (error) {
+      console.error('Error al enviar la respuesta:', error);
+    }
   };
 
   return (
@@ -117,6 +211,27 @@ const ConsultarQuejaE = () => {
       <Container>
         <h2>Quejas</h2>
         <p>Estas son las últimas quejas registradas en el sistema</p>
+        <FilterContainer>
+          <label>
+            Fecha:
+            <input 
+              type="date" 
+              value={fechaFiltro} 
+              onChange={(e) => setFechaFiltro(e.target.value)} 
+            />
+          </label>
+          <label>
+            Estado:
+            <select 
+              value={respondidaFiltro} 
+              onChange={(e) => setRespondidaFiltro(e.target.value)}
+            >
+              <option value="">Todos</option>
+              <option value="respondida">Respondidas</option>
+              <option value="noRespondida">No Respondidas</option>
+            </select>
+          </label>
+        </FilterContainer>
         <TableContainer>
           <Table>
             <thead>
@@ -129,7 +244,7 @@ const ConsultarQuejaE = () => {
               </tr>
             </thead>
             <tbody>
-              {quejas.map((queja, index) => (
+              {filteredQuejas.map((queja, index) => (
                 <React.Fragment key={queja.id}>
                   <tr>
                     <Td>{queja.fecha}</Td>
@@ -148,8 +263,23 @@ const ConsultarQuejaE = () => {
                         <QuejaContent>
                           <p>{queja.texto}</p>
                           <ResponseSection>
-                            <TextArea placeholder="Escribe tu respuesta aquí..." />
-                            <Button onClick={handleEnviarRespuesta}>Enviar Respuesta</Button>
+                            {queja.Respuesta ? (
+                              <p>Respuesta: {queja.Respuesta}</p>
+                            ) : (
+                              <>
+                                <TextArea
+                                  value={respuesta}
+                                  onChange={(e) => setRespuesta(e.target.value)}
+                                  placeholder="Escribe tu respuesta aquí..."
+                                />
+                                <Button
+                                  onClick={() => handleEnviarRespuesta(queja)}
+                                  disabled={!respuesta}
+                                >
+                                  Enviar Respuesta
+                                </Button>
+                              </>
+                            )}
                           </ResponseSection>
                         </QuejaContent>
                       </Td>

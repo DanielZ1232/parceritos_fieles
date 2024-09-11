@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBarCliente from '../../components/navBarCliente'; // Ajusta la ruta según tu estructura de carpetas
 import Footer from '../../components/footer'; // Ajusta la ruta según tu estructura de carpetas
 import './consultarQuejasC.css'; // Asegúrate de que la ruta es correcta y el nombre del archivo CSS coincide
+import Swal from 'sweetalert2'; // Importa SweetAlert2
 
 const ConsultarQuejasC = () => {
     const [quejas, setQuejas] = useState([]);
     const [usuarios, setUsuarios] = useState({});
+    const [modalVisible, setModalVisible] = useState(false);
+    const [quejaSeleccionada, setQuejaSeleccionada] = useState(null);
     const userId = localStorage.getItem('usuarioId'); // Obtén el ID del usuario desde el localStorage
 
     // Función para obtener las quejas desde el backend
@@ -43,6 +46,52 @@ const ConsultarQuejasC = () => {
             row.style.display = 'table-row';
         } else {
             row.style.display = 'none';
+        }
+    };
+
+    // Función para mostrar el modal con la queja seleccionada
+    const showUpdateModal = (queja) => {
+        setQuejaSeleccionada(queja);
+        setModalVisible(true);
+    };
+
+    // Función para cerrar el modal
+    const closeModal = () => {
+        setModalVisible(false);
+        setQuejaSeleccionada(null);
+    };
+
+    // Función para actualizar la queja
+    const actualizarQueja = async (event) => {
+        event.preventDefault();
+
+        try {
+            // Actualiza la queja en la base de datos a través de una solicitud PUT
+            await fetch(`http://localhost:3002/Quejas/${quejaSeleccionada.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    ...quejaSeleccionada,
+                    texto: quejaSeleccionada.texto, // Asegúrate de enviar todos los campos necesarios
+                }),
+            });
+
+            // Muestra la alerta de éxito
+            await Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'La queja ha sido actualizada con éxito',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            // Actualiza la lista de quejas y cierra el modal
+            fetchQuejas();
+            closeModal();
+        } catch (error) {
+            console.error('Error al actualizar la queja:', error);
         }
     };
 
@@ -88,7 +137,7 @@ const ConsultarQuejasC = () => {
                                                 <td colSpan="6">
                                                     <div className="queja-content">
                                                         <p>{queja.texto || 'No hay detalle de la queja.'}</p>
-                                                        <button className="actualizar-btn" onClick={() => window.location.href = 'actualizarQueja.html'}>Actualizar</button>
+                                                        <button className="actualizar-btn" onClick={() => showUpdateModal(queja)}>Actualizar</button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -105,6 +154,29 @@ const ConsultarQuejasC = () => {
             <a href="https://wa.me/1234567890" className="whatsapp-button" target="_blank" rel="noopener noreferrer">
                 <i className="fab fa-whatsapp"></i>
             </a>
+
+            {/* Modal de actualización */}
+            {modalVisible && quejaSeleccionada && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <span className="close" onClick={closeModal}>&times;</span>
+                        
+                        <form className="actualizar-form" onSubmit={actualizarQueja}>
+                        <h2>Actualizar Queja</h2>
+                            <textarea 
+                                id="queja" 
+                                name="queja" 
+                                rows="4" 
+                                cols="50"
+                                value={quejaSeleccionada.texto}
+                                onChange={(e) => setQuejaSeleccionada({ ...quejaSeleccionada, texto: e.target.value })}
+                            />
+                            <br />
+                            <button type="submit" className="guardar-btn">Guardar</button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -14,23 +14,36 @@ const RegistroMascota = () => {
     peso: '',
     edad: '',
     sexo: '',
-    esterilizado: '' // Inicializa con una cadena vacía
+    esterilizado: '', // Valor inicial como cadena vacía
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     
-    console.log(`Campo: ${name}, Valor: ${value}`); // Depuración
-
-    // Formatear el valor basado en el nombre del campo
+    // Formatear el valor solo si el campo es 'nombre'
     let formattedValue = value;
-    if (name !== 'edad') {
-      // Formatear solo los campos que no sean edad
+    if (name === 'nombre') {
       formattedValue = value
         .toLowerCase()
         .replace(/^\w/, c => c.toUpperCase()); // Capitaliza la primera letra
+    } else if (name === 'edad') {
+      // Validar que el valor de edad no sea negativo
+      formattedValue = value;
+      if (parseInt(value, 10) < 0) {
+        formattedValue = '';
+        Swal.fire({
+          icon: 'warning',
+          title: 'Edad Inválida',
+          text: 'La edad no puede ser negativa.',
+          confirmButtonText: 'Aceptar'
+        });
+      }
     }
 
+    // Depuración
+    console.log(`Campo: ${name}, Valor: ${formattedValue}`);
+
+    // Actualizar el estado del formulario
     setFormData({
       ...formData,
       [name]: formattedValue
@@ -39,14 +52,22 @@ const RegistroMascota = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Obtén el ID del usuario desde el localStorage
+    const usuarioId = localStorage.getItem('usuarioId'); // Ajusta la clave si es diferente
+
+    // Asegúrate de que el ID del usuario se agregue al formData
+    const formDataConUsuario = { ...formData, usuarioId };
+
     try {
       const response = await fetch('http://localhost:3002/Mascotas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formDataConUsuario)
       });
+
       if (response.ok) {
         Swal.fire({
           position: 'top-end',
@@ -62,7 +83,7 @@ const RegistroMascota = () => {
           peso: '',
           edad: '',
           sexo: '',
-          esterilizado: '' // Restablece a cadena vacía
+          esterilizado: '', // Restablece a cadena vacía
         });
       } else {
         console.error('Error al registrar la mascota:', response.status);

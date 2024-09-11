@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate para redirección
+import Swal from 'sweetalert2'; // Importa SweetAlert2
 import Logo from '../assets/Imagenes/logo.png';
 
 const Header = styled.header`
@@ -77,10 +78,19 @@ const NavBarEmpleado = () => {
   const navigate = useNavigate(); // Hook para redirección
 
   const handleLogout = () => {
-    // Limpia el almacenamiento local
-    localStorage.removeItem('userToken');
-    // Redirige a la página de inicio de sesión
-    navigate('/');
+    // Muestra la alerta de éxito antes de redirigir
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Sesión cerrada con éxito',
+      showConfirmButton: false,
+      timer: 1500
+    }).then(() => {
+      // Limpia el almacenamiento local
+      localStorage.removeItem('userToken');
+      // Redirige a la página de inicio de sesión después de mostrar la alerta
+      navigate('/');
+    });
   };
 
   return (

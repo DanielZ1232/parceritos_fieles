@@ -17,9 +17,12 @@ const ConsultarMascotas = () => {
         const response = await fetch('http://localhost:3002/Mascotas'); // URL del endpoint
         if (response.ok) {
           const data = await response.json();
-
+          console.log('Datos obtenidos:', data);
+          
           // Filtra las mascotas del usuario actual
-          const filteredMascotas = data.filter(mascota => mascota.usuarioId === userId);
+          const filteredMascotas = data.filter(mascota => mascota.usuarioId === String(userId));
+          console.log('Mascotas filtradas:', filteredMascotas);
+          
           setMascotas(filteredMascotas);
         } else {
           console.error('Error al obtener las mascotas:', response.status);
@@ -53,14 +56,14 @@ const ConsultarMascotas = () => {
                   {mascotas.length > 0 ? (
                     mascotas.map((mascota) => (
                       <tr key={mascota.id}>
-                        <td>{mascota.Nombre}</td>
-                        <td>{mascota.Raza}</td>
-                        <td>{mascota.Edad}</td>
+                        <td>{mascota.nombre}</td>
+                        <td>{mascota.raza}</td>
+                        <td>{mascota.edad}</td>
                         <td>
-                        <Link to={`/perfil-mascota/${mascota.id}`}>
-                         <FontAwesomeIcon icon={faUser} size="lg" className="profile-icon" />
-                       <span> Perfil</span>
-                      </Link>
+                          <Link to={`/perfil-mascota/${mascota.id}`}>
+                            <FontAwesomeIcon icon={faUser} size="lg" className="profile-icon" />
+                            <span> Perfil</span>
+                          </Link>
                         </td>
                       </tr>
                     ))
