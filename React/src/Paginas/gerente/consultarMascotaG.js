@@ -26,10 +26,10 @@ const ConsultarMascotG = () => {
 
   const filtrarMascotas = () => {
     return mascotas.filter((mascota) => {
-      const cumpleRaza = razaFiltro ? mascota.Raza.includes(razaFiltro) : true;
-      const cumpleSexo = sexoFiltro ? mascota.Sexo === sexoFiltro : true;
-      const cumpleEdadMin = edadMinFiltro ? mascota.Edad >= parseInt(edadMinFiltro) : true;
-      const cumpleEdadMax = edadMaxFiltro ? mascota.Edad <= parseInt(edadMaxFiltro) : true;
+      const cumpleRaza = razaFiltro ? mascota.raza.includes(razaFiltro) : true;
+      const cumpleSexo = sexoFiltro ? mascota.sexo === sexoFiltro : true;
+      const cumpleEdadMin = edadMinFiltro ? mascota.edad >= parseInt(edadMinFiltro) : true;
+      const cumpleEdadMax = edadMaxFiltro ? mascota.edad <= parseInt(edadMaxFiltro) : true;
 
       return cumpleRaza && cumpleSexo && cumpleEdadMin && cumpleEdadMax;
     });
@@ -95,13 +95,13 @@ const ConsultarMascotG = () => {
               <tbody>
                 {filtrarMascotas().map((mascota) => (
                   <tr key={mascota.id}>
-                    <td className="consultarMascotG-td">{mascota.Nombre}</td>
-                    <td className="consultarMascotG-td">{mascota.Raza}</td>
-                    <td className="consultarMascotG-td">{mascota.Edad} años</td>
-                    <td className="consultarMascotG-td">{mascota.Sexo}</td>
-                    <td className="consultarMascotG-td">{mascota.Enfermedades}</td>
-                    <td className="consultarMascotG-td">{mascota.Peso}</td>
-                    <td className="consultarMascotG-td">{mascota.Esterilizado ? 'Sí' : 'No'}</td>
+                    <td className="consultarMascotG-td">{mascota.nombre}</td>
+                    <td className="consultarMascotG-td">{mascota.raza}</td>
+                    <td className="consultarMascotG-td">{mascota.edad} años</td>
+                    <td className="consultarMascotG-td">{mascota.sexo}</td>
+                    <td className="consultarMascotG-td">{mascota.enfermedades}</td>
+                    <td className="consultarMascotG-td">{mascota.peso}</td>
+                    <td className="consultarMascotG-td">{mascota.esterilizado ? 'Sí' : 'No'}</td>
                     <td className="consultarMascotG-td">
                       <button
                         className="consultarMascotG-icon-button"

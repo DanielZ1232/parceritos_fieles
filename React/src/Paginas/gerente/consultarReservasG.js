@@ -13,7 +13,9 @@ const ConsultarReservasG = () => {
     const fetchReservas = async () => {
       try {
         const respuesta = await axios.get('http://localhost:3002/Reservas/');
-        setReservas(respuesta.data);
+        // Invertir el orden de los registros para que el último registro sea el primero
+        const data = respuesta.data.reverse();
+        setReservas(data);
       } catch (error) {
         console.error('Error al obtener las reservas:', error);
       }

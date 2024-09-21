@@ -6,6 +6,7 @@ import Imagen from '../../assets/Imagenes/perro2perfil.jpeg';
 
 const VerPerfilMascota = () => {
   const [mascota, setMascota] = useState(null);
+  const [dueno, setDueno] = useState(null);
 
   useEffect(() => {
     const fetchMascota = async () => {
@@ -16,17 +17,21 @@ const VerPerfilMascota = () => {
       }
 
       try {
-        const respuesta = await axios.get(`http://localhost:3002/Mascotas/${id}`);
-        setMascota(respuesta.data);
+        const respuestaMascota = await axios.get(`http://localhost:3002/Mascotas/${id}`);
+        setMascota(respuestaMascota.data);
+
+        const idUsuario = respuestaMascota.data.usuarioId;
+        const respuestaDueno = await axios.get(`http://localhost:3002/Usuarios/${idUsuario}`);
+        setDueno(respuestaDueno.data);
       } catch (error) {
-        console.error('Error al obtener los detalles de la mascota:', error);
+        console.error('Error al obtener los detalles:', error);
       }
     };
 
     fetchMascota();
   }, []);
 
-  if (!mascota) {
+  if (!mascota || !dueno) {
     return <div style={styles.loading}>Cargando...</div>;
   }
 
@@ -37,53 +42,68 @@ const VerPerfilMascota = () => {
         <center>
           <div style={styles.userImg}>
             <h1 style={styles.title}>Perfil de la Mascota</h1>
-
-            <h1>Perfil de la Mascota</h1>
-
             <img src={Imagen} alt="img" style={styles.img} />
           </div>
         </center>
-        <div style={styles.infoSection}>
-          <div style={styles.infoItem}>
-            <i className="fa-solid fa-paw" style={styles.icon} />
-            <div style={styles.infoText}>
-              <span style={styles.infoLabel}>Nombre:</span>
-              <span>{mascota.Nombre}</span>
+
+        {/* Sección de contenedores en columnas */}
+        <div style={styles.columnsContainer}>
+          {/* Columna de la mascota */}
+          <div style={styles.infoSection}>
+            <h2 style={styles.subtitle}>Detalles de la Mascota</h2>
+            <div style={styles.infoItem}>
+              <i className="fa-solid fa-paw" style={styles.icon} />
+              <div style={styles.infoText}>
+                <span style={styles.infoLabel}>Nombre:</span>
+                <span>{mascota.nombre}</span>
+              </div>
+            </div>
+            <div style={styles.infoItem}>
+              <i className="fa-solid fa-paw" style={styles.icon} />
+              <div style={styles.infoText}>
+                <span style={styles.infoLabel}>Edad:</span>
+                <span>{mascota.edad} años</span>
+              </div>
+            </div>
+            <div style={styles.infoItem}>
+              <i className="fa-solid fa-paw" style={styles.icon} />
+              <div style={styles.infoText}>
+                <span style={styles.infoLabel}>Peso:</span>
+                <span>{mascota.peso} Kg</span>
+              </div>
+            </div>
+            <div style={styles.infoItem}>
+              <i className="fa-solid fa-paw" style={styles.icon} />
+              <div style={styles.infoText}>
+                <span style={styles.infoLabel}>Raza:</span>
+                <span>{mascota.raza}</span>
+              </div>
             </div>
           </div>
-          <div style={styles.infoItem}>
-            <i className="fa-solid fa-paw" style={styles.icon} />
-            <div style={styles.infoText}>
-              <span style={styles.infoLabel}>Edad:</span>
-              <span>{mascota.Edad} años</span>
+
+          {/* Columna del dueño */}
+          <div style={styles.infoSection}>
+            <h2 style={styles.subtitle}>Detalles del Dueño</h2>
+            <div style={styles.infoItem}>
+              <i className="fa-solid fa-user" style={styles.icon} />
+              <div style={styles.infoText}>
+                <span style={styles.infoLabel}>Nombre:</span>
+                <span>{dueno.Nombre} {dueno.Apellido}</span>
+              </div>
             </div>
-          </div>
-          <div style={styles.infoItem}>
-            <i className="fa-solid fa-paw" style={styles.icon} />
-            <div style={styles.infoText}>
-              <span style={styles.infoLabel}>Peso:</span>
-              <span>{mascota.Peso} Kg</span>
+            <div style={styles.infoItem}>
+              <i className="fa-solid fa-envelope" style={styles.icon} />
+              <div style={styles.infoText}>
+                <span style={styles.infoLabel}>Correo:</span>
+                <span>{dueno.Correo}</span>
+              </div>
             </div>
-          </div>
-          <div style={styles.infoItem}>
-            <i className="fa-solid fa-paw" style={styles.icon} />
-            <div style={styles.infoText}>
-              <span style={styles.infoLabel}>Raza:</span>
-              <span>{mascota.Raza}</span>
-            </div>
-          </div>
-          <div style={styles.infoItem}>
-            <i className="fa-solid fa-paw" style={styles.icon} />
-            <div style={styles.infoText}>
-              <span style={styles.infoLabel}>Enfermedades:</span>
-              <span>{mascota.Enfermedades}</span>
-            </div>
-          </div>
-          <div style={styles.infoItem}>
-            <i className="fa-solid fa-paw" style={styles.icon} />
-            <div style={styles.infoText}>
-              <span style={styles.infoLabel}>Esterilizado:</span>
-              <span>{mascota.Esterilizado}</span>
+            <div style={styles.infoItem}>
+              <i className="fa-solid fa-phone" style={styles.icon} />
+              <div style={styles.infoText}>
+                <span style={styles.infoLabel}>Celular:</span>
+                <span>{dueno.Celular}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -116,42 +136,38 @@ const styles = {
   },
   title: {
     color: 'black',
+    fontSize: '28px',
+    fontWeight: 'bold',
   },
-  img: {
-    width: '26%',
   img: {
     width: '30%',
     height: 'auto',
     borderRadius: '8px',
     border: '4px solid #000',
   },
-  infoSection: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)', // 2 columnas
-    gap: '15px',
-    justifyContent: 'center',
-
+  columnsContainer: {
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '15px',
+    justifyContent: 'space-between',
+    marginTop: '20px',
+  },
+  subtitle: {
+    fontSize: '22px',
+    fontWeight: 'bold',
+    marginBottom: '10px',
+    textAlign: 'center',
+  },
+  infoSection: {
+    flex: '1',
+    margin: '0 10px',
   },
   infoItem: {
     display: 'flex',
     alignItems: 'center',
-    padding: '10px 15px',
-    borderRadius: '8px',
-    backgroundColor: '#ffffff',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    width: '100%',
-    boxSizing: 'border-box',
-
     padding: '10px 20px',
     borderRadius: '8px',
     backgroundColor: '#ffffff',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    width: '80%',
-    maxWidth: '500px',
+    marginBottom: '10px',
   },
   icon: {
     marginRight: '15px',
@@ -171,8 +187,9 @@ const styles = {
   loading: {
     textAlign: 'center',
     marginTop: '20px',
+    fontSize: '20px',
+    color: '#333',
   },
-     }
 };
 
 export default VerPerfilMascota;

@@ -483,7 +483,6 @@ function Index() {
                                         <Link to="#">¿Olvidaste tu Contraseña?</Link>
                                         <Link to="#" onClick={handleRegisterClick}>¿No tienes cuenta? Regístrate!</Link>
                                     </div>
-                                    <button type="submit" className="button">Ingresar</button>
                                 </form>
                                 <button onClick={() => setLoginModalVisible(false)} className="close-modal">Cerrar</button>
                             </div>

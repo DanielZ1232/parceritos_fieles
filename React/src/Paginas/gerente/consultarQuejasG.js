@@ -3,7 +3,7 @@ import NavBar from '../../components/navBarGerente';
 import Footer from '../../components/footer';
 import './consultarQuejasG.css';
 import axios from 'axios';
-import Swal from 'sweetalert2'; // Importa SweetAlert2
+import Swal from 'sweetalert2';
 
 const ConsultarQuejasG = () => {
   const [quejas, setQuejas] = useState([]);
@@ -14,7 +14,9 @@ const ConsultarQuejasG = () => {
     const fetchQuejas = async () => {
       try {
         const response = await axios.get('http://localhost:3002/Quejas/');
-        setQuejas(response.data);
+        // Invertir el orden de los registros para que el último registro sea el primero
+        const data = response.data.reverse();
+        setQuejas(data);
       } catch (error) {
         console.error('Error al obtener las quejas:', error);
       }

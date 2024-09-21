@@ -1,16 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBarCliente from '../../components/navBarCliente'; // Ajusta la ruta según tu estructura de carpetas
 import Footer from '../../components/footer'; // Ajusta la ruta según tu estructura de carpetas
 import './crearQuejaC.css';
 import Logo from '../../assets/Imagenes/logo.png'; // Asegúrate de que la ruta es correcta
 import Swal from 'sweetalert2';
+import { v4 as uuidv4 } from 'uuid'; // Para generar IDs únicos
 
 const CrearQuejaC = () => {
     const maxLength = 250; // Número máximo de caracteres permitidos
     const [text, setText] = useState(''); // Estado para almacenar el texto del textarea
     const [isSaving, setIsSaving] = useState(false); // Estado para manejar el estado de guardado
+    const [userData, setUserData] = useState(null); // Estado para almacenar los datos del usuario
 
     const userId = localStorage.getItem('usuarioId'); // Obtén el ID del usuario desde el localStorage
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch(`http://localhost:3002/Usuarios/${userId}`); // Ajusta la URL según la configuración de tu API
+                if (response.ok) {
+                    const data = await response.json();
+                    setUserData(data);
+                } else {
+                    console.error('Error al obtener los datos del usuario.');
+                }
+            } catch (error) {
+                console.error('Error al obtener los datos del usuario:', error);
+            }
+        };
+
+        fetchUserData();
+    }, [userId]);
 
     // Manejador para actualizar el texto y el contador de caracteres
     const handleChange = (event) => {
@@ -40,10 +60,14 @@ const CrearQuejaC = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    id: uuidv4(), // Genera un ID único
                     texto: text,
                     usuarioId: userId, // Incluye el ID del usuario
+                    nombre: userData?.Nombre || '', // Usa el nombre del usuario
+                    correo: userData?.Correo || '', // Usa el correo del usuario
                     fecha: fecha, // Incluye la fecha
-                    hora: hora // Incluye la hora
+                    hora: hora, // Incluye la hora
+                    Respuesta: '' // Inicialmente vacío
                 }),
             });
 

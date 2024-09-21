@@ -1,27 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import NavBarCliente from '../../components/navBarCliente'; // Ajusta la ruta según tu estructura de carpetas
-import Footer from '../../components/footer'; // Ajusta la ruta según tu estructura de carpetas
-import './consultarQuejasC.css'; // Asegúrate de que la ruta es correcta y el nombre del archivo CSS coincide
-import Swal from 'sweetalert2'; // Importa SweetAlert2
+import NavBarCliente from '../../components/navBarCliente';
+import Footer from '../../components/footer';
+import './consultarQuejasC.css';
+import Swal from 'sweetalert2';
 
 const ConsultarQuejasC = () => {
     const [quejas, setQuejas] = useState([]);
     const [usuarios, setUsuarios] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
     const [quejaSeleccionada, setQuejaSeleccionada] = useState(null);
-    const userId = localStorage.getItem('usuarioId'); // Obtén el ID del usuario desde el localStorage
+    const [fechaFiltro, setFechaFiltro] = useState(''); // Nuevo estado para el filtro de fecha
+    const userId = localStorage.getItem('usuarioId');
 
-    // Función para obtener las quejas desde el backend
     const fetchQuejas = async () => {
         try {
-            const response = await fetch('http://localhost:3002/Quejas'); // Ajusta la URL según la configuración de tu API
-            const data = await response.json();
+            const response = await fetch('http://localhost:3002/Quejas');
+            let data = await response.json();
 
-            // Filtra las quejas del usuario actual
-            const filteredQuejas = data.filter(queja => queja.usuarioId === userId);
+            // Filtrar las quejas por el usuario
+            let filteredQuejas = data.filter(queja => queja.usuarioId === userId);
+
+            // Ordenar las quejas de manera descendente por el orden de registro (la más reciente primero)
+            filteredQuejas.reverse();
+
+            // Filtrar por fecha si se selecciona en el filtro
+            if (fechaFiltro) {
+                filteredQuejas = filteredQuejas.filter(queja => new Date(queja.fecha) >= new Date(fechaFiltro));
+            }
+
             setQuejas(filteredQuejas);
 
-            // Obtén los usuarios
             const usuariosResponse = await fetch('http://localhost:3002/Usuarios');
             const usuariosData = await usuariosResponse.json();
             const usuariosMap = usuariosData.reduce((acc, usuario) => {
@@ -34,12 +42,10 @@ const ConsultarQuejasC = () => {
         }
     };
 
-    // Llama a la función para obtener las quejas cuando el componente se monte
     useEffect(() => {
         fetchQuejas();
-    }, []);
+    }, [fechaFiltro]);
 
-    // Función para alternar la visibilidad del contenido de la queja
     const toggleQueja = (event) => {
         const row = event.currentTarget.closest('tr').nextElementSibling;
         if (row.style.display === 'none') {
@@ -49,24 +55,20 @@ const ConsultarQuejasC = () => {
         }
     };
 
-    // Función para mostrar el modal con la queja seleccionada
     const showUpdateModal = (queja) => {
         setQuejaSeleccionada(queja);
         setModalVisible(true);
     };
 
-    // Función para cerrar el modal
     const closeModal = () => {
         setModalVisible(false);
         setQuejaSeleccionada(null);
     };
 
-    // Función para actualizar la queja
     const actualizarQueja = async (event) => {
         event.preventDefault();
 
         try {
-            // Actualiza la queja en la base de datos a través de una solicitud PUT
             await fetch(`http://localhost:3002/Quejas/${quejaSeleccionada.id}`, {
                 method: 'PUT',
                 headers: {
@@ -74,11 +76,10 @@ const ConsultarQuejasC = () => {
                 },
                 body: JSON.stringify({
                     ...quejaSeleccionada,
-                    texto: quejaSeleccionada.texto, // Asegúrate de enviar todos los campos necesarios
+                    texto: quejaSeleccionada.texto,
                 }),
             });
 
-            // Muestra la alerta de éxito
             await Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -87,7 +88,6 @@ const ConsultarQuejasC = () => {
                 timer: 1500
             });
 
-            // Actualiza la lista de quejas y cierra el modal
             fetchQuejas();
             closeModal();
         } catch (error) {
@@ -102,6 +102,19 @@ const ConsultarQuejasC = () => {
                 <div className="content">
                     <h2>Quejas</h2>
                     <p>Estas son las quejas registradas por usted en el sistema</p>
+
+                    {/* Filtro por fecha */}
+                    <div className="filter-section">
+                        <label htmlFor="fechaFiltro">Filtrar por fecha (desde): </label>
+                        <input
+                            type="date"
+                            id="fechaFiltro"
+                            value={fechaFiltro}
+                            onChange={(e) => setFechaFiltro(e.target.value)}
+                        />
+                    </div>
+                    <br></br>
+
                     <div className="table-container">
                         <table>
                             <thead>
@@ -150,19 +163,16 @@ const ConsultarQuejasC = () => {
                 </div>
             </div>
             <Footer className="footer-sticky" />
-            {/* Botón flotante de WhatsApp */}
             <a href="https://wa.me/1234567890" className="whatsapp-button" target="_blank" rel="noopener noreferrer">
                 <i className="fab fa-whatsapp"></i>
             </a>
 
-            {/* Modal de actualización */}
             {modalVisible && quejaSeleccionada && (
                 <div className="modal">
                     <div className="modal-content">
                         <span className="close" onClick={closeModal}>&times;</span>
-                        
                         <form className="actualizar-form" onSubmit={actualizarQueja}>
-                        <h2>Actualizar Queja</h2>
+                            <h2>Actualizar Queja</h2>
                             <textarea 
                                 id="queja" 
                                 name="queja" 

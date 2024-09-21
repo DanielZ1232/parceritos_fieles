@@ -110,16 +110,7 @@ const FilterContainer = styled.div`
   }
 `;
 
-const Icon = styled.i`
-  cursor: pointer;
-  font-size: 20px;
-  margin-right: 10px;
-  color: #007bff;
 
-  &:hover {
-    color: #0056b3;
-  }
-`;
 
 const ConsultarQuejaE = () => {
   const [quejas, setQuejas] = useState([]);
@@ -133,8 +124,10 @@ const ConsultarQuejaE = () => {
     const fetchQuejas = async () => {
       try {
         const response = await axios.get('http://localhost:3002/Quejas/');
-        setQuejas(response.data);
-        setFilteredQuejas(response.data);
+        // Invertir el orden de los registros para que el último registro sea el primero
+        const data = response.data.reverse();
+        setQuejas(data);
+        setFilteredQuejas(data);
       } catch (error) {
         console.error('Error al obtener las quejas:', error);
       }

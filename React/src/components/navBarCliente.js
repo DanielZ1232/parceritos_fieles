@@ -1,8 +1,5 @@
-// src/components/NavBarCliente.jsx
-
 import React from 'react';
-import { Link } from 'react-router-dom';
-import '../Paginas/cliente/menu.css'; // Asegúrate de importar el CSS del menú
+import { Link } from 'react-router-dom'; // Asegúrate de importar el CSS del menú
 import logo from '../assets/Imagenes/logo.png'; // Asegúrate de que esta ruta sea correcta
 import Swal from 'sweetalert2'; // Importa SweetAlert2
 

@@ -217,8 +217,8 @@ const CrearReserva = () => {
               >
                 <option value="">Seleccione una opción</option>
                 {mascotas.map(mascota => (
-                  <option key={mascota.id} value={mascota.Nombre}>
-                    {mascota.Nombre}
+                  <option key={mascota.id} value={mascota.nombre}>
+                    {mascota.nombre}
                   </option>
                 ))}
               </select>

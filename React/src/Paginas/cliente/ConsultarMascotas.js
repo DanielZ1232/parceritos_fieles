@@ -61,8 +61,10 @@ const ConsultarMascotas = () => {
                         <td>{mascota.edad}</td>
                         <td>
                           <Link to={`/perfil-mascota/${mascota.id}`}>
-                            <FontAwesomeIcon icon={faUser} size="lg" className="profile-icon" />
-                            <span> Perfil</span>
+                            <FontAwesomeIcon icon={faUser} size="lg" className="profile-icon"
+                            style={{textDecoration: 'none',
+                              color: 'black'
+                            }} />
                           </Link>
                         </td>
                       </tr>

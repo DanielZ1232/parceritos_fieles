@@ -27,10 +27,10 @@ const ConsultarMascotas = () => {
 
   const filtrarMascotas = () => {
     return mascotas.filter((mascota) => {
-      const cumpleRaza = razaFiltro ? mascota.Raza.includes(razaFiltro) : true;
-      const cumpleSexo = sexoFiltro ? mascota.Sexo === sexoFiltro : true;
-      const cumpleEdadMin = edadMinFiltro ? mascota.Edad >= parseInt(edadMinFiltro) : true;
-      const cumpleEdadMax = edadMaxFiltro ? mascota.Edad <= parseInt(edadMaxFiltro) : true;
+      const cumpleRaza = razaFiltro ? mascota.raza.includes(razaFiltro) : true;
+      const cumpleSexo = sexoFiltro ? mascota.sexo === sexoFiltro : true;
+      const cumpleEdadMin = edadMinFiltro ? mascota.edad >= parseInt(edadMinFiltro) : true;
+      const cumpleEdadMax = edadMaxFiltro ? mascota.edad <= parseInt(edadMaxFiltro) : true;
 
       return cumpleRaza && cumpleSexo && cumpleEdadMin && cumpleEdadMax;
     });
@@ -175,13 +175,13 @@ const ConsultarMascotas = () => {
               <tbody>
                 {filtrarMascotas().map((mascota) => (
                   <tr key={mascota.id}>
-                    <td style={styles.td}>{mascota.Nombre}</td>
-                    <td style={styles.td}>{mascota.Raza}</td>
-                    <td style={styles.td}>{mascota.Edad} años</td>
-                    <td style={styles.td}>{mascota.Sexo}</td>
-                    <td style={styles.td}>{mascota.Enfermedades}</td>
-                    <td style={styles.td}>{mascota.Peso}</td>
-                    <td style={styles.td}>{mascota.Esterilizado ? 'Sí' : 'No'}</td>
+                    <td style={styles.td}>{mascota.nombre}</td>
+                    <td style={styles.td}>{mascota.raza}</td>
+                    <td style={styles.td}>{mascota.edad} años</td>
+                    <td style={styles.td}>{mascota.sexo}</td>
+                    <td style={styles.td}>{mascota.enfermedades}</td>
+                    <td style={styles.td}>{mascota.peso}</td>
+                    <td style={styles.td}>{mascota.esterilizado ? 'Sí' : 'No'}</td>
                     <td style={styles.td}>
                       <button
                         style={styles.button}

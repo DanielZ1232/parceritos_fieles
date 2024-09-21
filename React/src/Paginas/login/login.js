@@ -88,7 +88,6 @@ const Login = () => {
                                 <Link to="#">¿Olvidaste tu Contraseña?</Link>
                                 <Link to="/registrar">¿No tienes cuenta? Regístrate!</Link>
                             </div>
-                            <button type="submit" className="button">Ingresar</button>
                         </form>
                     </div>
                 </div>
