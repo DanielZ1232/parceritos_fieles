@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState, useRef} from 'react'; 
 import { Link, useNavigate } from 'react-router-dom';
 import Imagen from '../assets/Imagenes/perro1.jpeg';
@@ -15,7 +16,10 @@ import ImagenColegio from '../assets/Imagenes/colegio1.webp';
 import Footer from '../components/footer';
 import Swal from 'sweetalert2'; // Asegúrate de tener SweetAlert2 instalado
 import axios from 'axios';
-import ImagenSede from '../assets/Imagenes/perroguia.png';
+import Icono1 from '../assets/Imagenes/icono1.png';
+import Icono2 from '../assets/Imagenes/icono2.png';
+import Icono3 from '../assets/Imagenes/icono3.png';
+import Icono4 from '../assets/Imagenes/icono4.png';
 
 
 
@@ -36,7 +40,14 @@ const Index2 = () => {
     const [registerContraseña, setRegisterContraseña] = useState('');
     const [registerConfirmarContraseña, setRegisterConfirmarContraseña] = useState('');
 
-    const images = [Imagen1, Imagen2, Imagen3, Imagen4, Imagen5, Imagen6];
+    
+    const handleRegisterClick = (e) => {
+      e.preventDefault();
+      setLoginModalVisible(false);
+      setRegisterModalVisible(true);
+  };
+
+  const images = [Imagen1, Imagen2, Imagen3, Imagen4, Imagen5, Imagen6];
     const navigate = useNavigate();
 
 
@@ -51,17 +62,11 @@ const Index2 = () => {
     const getTransformValue = () => {
         return `translateX(-${(currentIndex * 100) / images.length}%)`;
     };
-    const handleRegisterClick = (e) => {
-      e.preventDefault();
-      setLoginModalVisible(false);
-      setRegisterModalVisible(true);
-  };
-
     useEffect(() => {
         loadFonts();
         const interval = setInterval(goToNextSlide, 3000);
         return () => clearInterval(interval);
-    }, [images.length]);
+    },[images.length]);
 
     const bannerStyles = {
         container: {
@@ -309,7 +314,6 @@ const scrollToTop = () => {
 
 const loginModalRef = useRef(null); // Define el ref para el modal
 
-
     return (
         <div>
             <section>
@@ -319,7 +323,7 @@ const loginModalRef = useRef(null); // Define el ref para el modal
                         <h1 className='titulo' style={bannerStyles.title}>Parceritos Fieles</h1>
                         <h2 className='Subtitulo' style={bannerStyles.subtitle}>Hotel, Guardería y Colegio Canino</h2>
                         <a
-                            href={{ pathname: "https://wa.me/+573506842198" }} 
+                            href="https://wa.me/+573506842198"
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{
@@ -354,7 +358,79 @@ const loginModalRef = useRef(null); // Define el ref para el modal
                 </div>
             </section>
 
-            <section id='servicios'>
+            <section style={{ textAlign: 'center', padding: '50px', backgroundColor: 'white' }}>
+    {/* Título principal */}
+    <h1 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 'bold', color: '#1C4D4F', marginBottom: '10px', fontSize: '30px' }}>
+        Un lugar seguro para tu mascota
+    </h1>
+
+    {/* Descripción */}
+    <p style={{ fontFamily: 'Poppins, sans-serif', color: '#4A4A4A', fontSize: '18px', marginBottom: '40px' }}>
+    En Parceritos Fieles, nuestra prioridad es que te sientas seguro y en paz, sabiendo que tu mascota recibe el mejor cuidado. Por eso, queremos compartir contigo lo que ofrecemos.
+    </p>
+
+
+    {/* Contenedor de los íconos con textos */}
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px', maxWidth: '1200px', margin: '0 auto' }}>
+        
+        {/* Supervisión personalizada */}
+        <div style={{ textAlign: 'center' }}>
+            <img src={Icono1} style={{ width: '70px', color: '#082932' }}/>
+            <h3 style={{ color: '#FF7629', fontFamily: 'Poppins, sans-serif', marginTop: '10px' }}>Supervisión</h3>
+            <p style={{ color: '#4A4A4A', fontFamily: 'Poppins, sans-serif' }}>
+            Ten la certeza de que tu compañero peludo estará en un entorno protegido, atendido por nuestro dedicado equipo.
+            </p>
+
+        </div>
+
+        {/* Libre de jaulas y guacales */}
+        <div style={{ textAlign: 'center' }}>
+            <i className="fa-solid fa-paw" style={{ fontSize: '70px', color: '#082932' }}></i>
+            <h3 style={{ color: '#FF7629', fontFamily: 'Poppins, sans-serif', marginTop: '10px' }}>Libre de jaulas</h3>
+            <p style={{ color: '#4A4A4A', fontFamily: 'Poppins, sans-serif' }}>
+            Nuestro deseo es que los perros sean felices y estén libres, por eso en Parceritos Fieles no usamos jaulas; ofrecemos un entorno seguro y abierto.
+            </p>
+
+        </div>
+
+        {/* Zonas verdes y caminatas */}
+        <div style={{ textAlign: 'center' }}>
+            <img src={Icono2} style={{ width: '70px', color: '#082932' }}/>
+            <h3 style={{ color: '#FF7629', fontFamily: 'Poppins, sans-serif', marginTop: '10px' }}>Zonas verdes</h3>
+            <p style={{ color: '#4A4A4A', fontFamily: 'Poppins, sans-serif' }}>
+            Disponemos de zonas verdes seguras, perfectas para que los perritos jueguen y disfruten de caminatas.
+            </p>
+
+
+        </div>
+
+        {/* Reportes por Whatsapp */}
+        <div style={{ textAlign: 'center' }}>
+            <i className="fa-brands fa-whatsapp" style={{ fontSize: '70px', color: '#082932' }}></i>
+            <h3 style={{ color: '#FF7629', fontFamily: 'Poppins, sans-serif', marginTop: '10px' }}>Reportes por Whatsapp</h3>
+            <p style={{ color: '#4A4A4A', fontFamily: 'Poppins, sans-serif' }}>
+            Nuestro equipo se mantendrá en contacto mediane grupo de Whatsapp durante la estadía, enviándo reportes generales con fotos y videos de todos los peluditos disfrutando su día.
+            </p>
+
+
+        </div>
+
+        {/* Vacunas al día */}
+        <div style={{ textAlign: 'center' }}>
+            <i className="fa-solid fa-syringe" style={{ fontSize: '70px', color: '#082932' }}></i>
+            <h3 style={{ color: '#FF7629', fontFamily: 'Poppins, sans-serif', marginTop: '10px' }}>Vacunas y Desparasitación</h3>
+            <p style={{ color: '#4A4A4A', fontFamily: 'Poppins, sans-serif' }}>
+            Todos nuestros peluditos deben estar vacunados y desparasitados. Al registrarse, es necesario presentar su carnet de vacunación, y si algún perrito no cumple con estos requisitos, podemos ofrecer el servicio correspondiente.
+            </p>
+        </div>
+        
+    </div>
+</section>
+
+
+
+
+    <section id='servicios'>
     <div style={styles.serviciosSection}>
         <h2 style={styles.serviciosTitulo}>Nuestros servicios</h2>
         <div style={styles.serviciosContainer}>
@@ -364,10 +440,9 @@ const loginModalRef = useRef(null); // Define el ref para el modal
                 <img src={ImagenHotel} alt="Hotel" style={styles.servicioImagen} />
                 <div style={styles.servicioInfo}>
                     <h3 style={styles.servicioTitulo}>Hotel</h3>
-                    <p>¿Necesitas viajar y no tienes quién cuide tu mascota?</p>
-                    <p>¡Trae sus pijamas! Porque en Dog Garden tenemos un lugar cálido y seguro para que tu peludo pase todas las noches que necesite.</p>
-                    <p><strong>Precio: $40,000 por día y noche</strong></p>
-                    <button style={styles.servicioBoton}>Ver precios</button>
+                    <p style={{ color: '#4A4A4A', fontFamily: 'Poppins, sans-serif' }}>¿Vas a viajar y te preocupa quién cuidará de tu mascota?</p>
+                    <p style={{ color: '#4A4A4A', fontFamily: 'Poppins, sans-serif' }}>¡No te preocupes! En Parceritos Fieles tenemos un ambiente acogedor y seguro para que tu peludito se sienta como en casa durante su estadía</p>
+                    <p><strong style={{color: '#ff7931'}}>Precio: $40,000 por día y noche</strong></p>
                 </div>
             </div>
 
@@ -376,11 +451,10 @@ const loginModalRef = useRef(null); // Define el ref para el modal
                 <img src={ImagenGuarderia} alt="Guardería" style={styles.servicioImagen} />
                 <div style={styles.servicioInfo}>
                     <h3 style={styles.servicioTitulo}>Guardería</h3>
-                    <p>¿Debes volver al trabajo y te preocupa dejar a tu mascota?</p>
-                    <p>Puedes estar tranquilo en la oficina, mientras tu peludo pasa un día fenomenal con otros amigos perrunos en un ambiente divertido y seguro.</p>
-                    <p><strong>Pasadía: $35,000 (hasta 2 días a la semana)</strong></p>
-                    <button style={styles.servicioBoton}>Ver precios</button>
-                    <p style={styles.servicioDuracion}>Horario: 6am - 8pm.</p>
+                    <p style={{ color: '#4A4A4A', fontFamily: 'Poppins, sans-serif' }}>¿No vas a estar en casa y te inquieta dejar a tu mascota sola?</p>
+                    <p style={{ color: '#4A4A4A', fontFamily: 'Poppins, sans-serif' }}>Relájate, tu peludito disfrutará de un día increíble con sus amigos en un entorno divertido y seguro, donde podrá jugar y socializar mientras tú no estás.</p>
+                    <p><strong style={{color: '#ff7931'}}>Pasadía: $35,000 (hasta 2 días a la semana)</strong></p>
+                    
                 </div>
             </div>
 
@@ -389,20 +463,43 @@ const loginModalRef = useRef(null); // Define el ref para el modal
                 <img src={ImagenColegio} alt="Colegio" style={styles.servicioImagen} />
                 <div style={styles.servicioInfo}>
                     <h3 style={styles.servicioTitulo}>Colegio</h3>
-                    <p>¿Quieres que tu peludo aprenda y socialice?</p>
-                    <p>¡En Dog Garden tenemos clases para todas las edades! Adicionalmente, ofrecemos actividades de socialización y juegos.</p>
-                    <p><strong>Mensualidad:</strong></p>
+                    <p style={{ color: '#4A4A4A', fontFamily: 'Poppins, sans-serif' }}>¿Te gustaría que tu peludito aprenda nuevas habilidades y socialice?</p>
+                    <p style={{ color: '#4A4A4A', fontFamily: 'Poppins, sans-serif' }}>¡En Parceritos Fieles ofrecemos clases para todas las edades! Además, organizamos actividades de socialización y juegos para que se diviertan al máximo.</p>
+                    <p><strong style={{color: '#ff7931'}}>Mensualidad:</strong></p>
                     <ul>
-                        <li>Raza grande: <strong>$350,000</strong> ● Raza pequeña: <strong>$300,000</strong></li>
+                        <li style={{color: '#ff7931'}}>Raza grande: <strong>$350,000</strong></li> <li style={{color: '#ff7931'}}>Raza pequeña: <strong>$300,000</strong></li>
                     </ul>
-                    <button style={styles.servicioBoton}>Ver precios</button>
-                    <p style={styles.servicioDuracion}>Estadia mínima por 24 horas.</p>
                 </div>
             </div>
-
         </div>
     </div>
+  
 </section>
+<section style={{justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}>
+<a
+    href="https://wa.me/+573506842198" 
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#E1E9C8',
+    borderRadius: '20px',
+    padding: '10px 20px',
+    textDecoration: 'none',
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: '16px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+    marginTop: '20px',
+    fontFamily: 'Poppins-ExtraLightItalic',
+    letterSpacing: '2px'
+}}
+>
+    <i className="fa-brands fa-whatsapp" style={{ fontSize: '30px', marginRight: '10px' }}></i>
+        Contáctanos Para Mas Información
+    </a>
+    </section>
 
             {/* Carrusel estático */}
             <section className="about">
@@ -423,29 +520,54 @@ const loginModalRef = useRef(null); // Define el ref para el modal
                 </div>
             </section>
 
-            <section id='sede'>
-    <div style={styles.sedeSection}>
-        <h2 style={styles.sedeTitulo}>Nuestra Sede</h2>
-        <div style={styles.sedeContainer}>
-            <div style={styles.imageContainer}>
-                <img src={ImagenSede} alt="Sede" style={styles.sedeImagen} />
-                <div style={styles.textOverlay}>
-                    <p style={styles.overlayText}>Esta es nuestra única sede, ¡ven a visitarnos!</p>
-                </div>
-            </div>
-            <div style={styles.mapContainer}>
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345096153!2d144.95373531531656!3d-37.816279979751824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0c1f20a7%3A0x5045675218ceed0!2sYour%20Location!5e0!3m2!1sen!2sus!4v1611184548000!5m2!1sen!2sus"
-                    style={styles.map}
-                    allowFullScreen
-                    loading="lazy"
-                ></iframe>
-            </div>
+            <section id='planes'>
+    <div style={styles.planesContainer}>
+        <h2 style={styles.planesTitulo}>Servicios y Reglas</h2>
+
+        <div style={styles.planesSeccion}>
+            <h3 style={styles.planesSubtitulo}>Hotel:</h3>
+            <ul style={styles.lista}>
+                <li>Puedes reservar para fines de semana o por periodos de ocho días, según lo que necesites para tu peludito.</li>
+            </ul>
         </div>
+
+        <div style={styles.planesSeccion}>
+            <h3 style={styles.planesSubtitulo}>Guardería o Pasadía:</h3>
+            <ul style={styles.lista}>
+                <li>Ideal si tienes una cita médica o diligencia y no puedes estar en casa.</li>
+                <li>Recogemos a tu mascota en la madrugada del día reservado y la devolvemos en la tarde-noche, asegurando que pase un día completo bajo cuidado especializado.</li>
+            </ul>
+        </div>
+
+        <div style={styles.planesSeccion}>
+            <h3 style={styles.planesSubtitulo}>Colegio:</h3>
+            <ul style={styles.lista}>
+                <li>El colegio funciona de lunes a viernes a partir de las 6:30 am.</li>
+                <li>La primera mascota se entrega en su casa alrededor de las 2 pm.</li>
+                <li>Para razas grandes, la mensualidad es de <strong>$350,000 COP</strong>.</li>
+                <li>Para razas pequeñas, la mensualidad es de <strong>$300,000 COP</strong>.</li>
+                <li>Recogemos y devolvemos a tu peludito el mismo día, garantizando que disfrute de un día lleno de actividades y aprendizaje.</li>
+            </ul>
+        </div>
+
     </div>
 </section>
 
 
+            <section id='sede' style={{textAlign: 'center'}}>
+            <img src={Icono4} style={{width: '70px', height: '70px' 
+            }} />
+            <div style={styles.sedeSection}>
+                <h2 style={styles.sedeTitulo}>Unica Sede</h2>
+                <p style={{fontFamily: 'Poppins, sans-serif', color: '#4A4A4A', fontSize: '18px'}}>Todos los servicios son a domicilio, nosotros buscamos y llevamos a tu amiguito.</p>
+                <div style={styles.sedeContainer}>
+                    <div style={styles.mapContainer}>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3975.583721464432!2d-74.1476182250199!3d4.841309995134275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNMKwNTAnMjguNyJOIDc0wrAwOCc0Mi4yIlc!5e0!3m2!1ses!2sco!4v1727028484569!5m2!1ses!2sco" width="600" height="450"  allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                    style={styles.map}></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
 
             <Footer
             onLoginClick={() => setLoginModalVisible(true)} 
@@ -635,6 +757,9 @@ const loginModalRef = useRef(null); // Define el ref para el modal
     );
 };
 
+
+
+
 const styles = {
     serviciosSection: {
         backgroundColor: 'white',
@@ -642,15 +767,18 @@ const styles = {
         textAlign: 'center',
     },
     serviciosTitulo: {
-        fontSize: '2.5rem',
-        marginBottom: '40px',
-        color: '#333',
-        fontFamily: 'Arial, sans-serif',
+        fontFamily: 'Poppins, sans-serif', 
+        fontWeight: 'bold', 
+        color: '#1C4D4F', 
+        marginBottom: '10px',
+        fontSize: '30px'
+         
     },
     serviciosContainer: {
         display: 'flex',
         justifyContent: 'space-around',
         flexWrap: 'wrap',
+        marginTop: '35px'
     },
     servicioCard: {
         backgroundColor: '#fdf6e4',
@@ -694,14 +822,18 @@ const styles = {
         color: '#888',
     },
     sedeSection: {
-      backgroundColor: '#f9f9f9',
+      backgroundColor: 'white',
       padding: '50px 20px',
       textAlign: 'center',
+      marginTop: '-20px'
   },
   sedeTitulo: {
-      fontSize: '2.5rem',
-      marginBottom: '40px',
-      color: '#333',
+      fontFamily: 'Poppins, sans-serif', 
+      fontWeight: 'bold', 
+      color: '#1C4D4F', 
+      marginBottom: '10px',
+      marginTop: '-25px',
+      fontSize: '30px'
   },
   sedeContainer: {
       display: 'flex',
@@ -747,7 +879,40 @@ const styles = {
   map: {
       width: '100%',
       height: '100%',
+      border: 'none'
   },
+  planesContainer: {
+    backgroundColor: 'white',
+    padding: '50px 20px',
+    textAlign: 'start',
+    marginLeft: '30px',
+    marginTop: '-40px'
+},
+planesTitulo: {
+    fontFamily: 'Poppins, sans-serif', 
+    fontWeight: 'bold', 
+    color: '#1C4D4F', 
+    marginBottom: '10px',
+    fontSize: '30px'
+},
+planesSeccion: {
+    marginBottom: '20px',
+},
+planesSubtitulo: {
+    fontFamily: 'Poppins, sans-serif', 
+    fontWeight: 'bold', 
+    color: '#1C4D4F', 
+    fontSize: '22px',
+    marginBottom: '10px',
+},
+lista: {
+    paddingLeft: '20px',
+    fontSize: '16px',
+    lineHeight: '1.6',
+    color: '#112D32',
+},
 };
+
+
 
 export default Index2;
