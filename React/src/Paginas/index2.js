@@ -281,32 +281,46 @@ const validatePassword = (password) => {
 };
 
 const handleAccountClick = () => {
-  if (!isLoggedIn) {
-      Swal.fire({
-          title: "¿No tienes cuenta?",
-          text: "Regístrate o inicia sesión",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Iniciar sesión",
-          cancelButtonText: "Regístrate"
-      }).then((result) => {
-          if (result.isConfirmed) {
-              setLoginModalVisible(true);
-          } else {
-              setRegisterModalVisible(true);
-          }
-      });
-  } else {
-      Swal.fire({
-          title: 'Ya estás logueado',
-          icon: 'info',
-          confirmButtonColor: '#3085d6',
-          confirmButtonText: 'Aceptar'
-      });
-  }
+    if (!isLoggedIn) {
+        Swal.fire({
+            title: "¿Tienes cuenta?",
+            icon: "warning",
+            showCancelButton: false, // Ocultar botón de registro
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Iniciar sesión",
+            allowOutsideClick: true, // Permitir clic fuera
+            customClass: {
+                popup: 'my-popup' // Clase personalizada para la alerta
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setLoginModalVisible(true); // Abre el modal de inicio de sesión
+            }
+            // Si se hace clic fuera, no se hace nada
+        });
+    } else {
+        Swal.fire({
+            title: 'Ya estás logueado',
+            icon: 'info',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar',
+            allowOutsideClick: true, // Permitir clic fuera
+            customClass: {
+                popup: 'my-popup' // Clase personalizada para la alerta
+            }
+        });
+    }
 };
+
+// Añade CSS para cambiar la tipografía de la alerta
+const style = document.createElement('style');
+style.innerHTML = `
+    .my-popup {
+        font-family: Arial, sans-serif; // Cambiar tipografía a Arial
+    }
+`;
+document.head.appendChild(style);
+
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
